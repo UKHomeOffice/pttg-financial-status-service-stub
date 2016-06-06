@@ -1,0 +1,6 @@
+FROM quay.io/ukhomeofficedigital/openjdk8:v0.1.2
+
+RUN mkdir build
+ADD . build/
+RUN ls build
+CMD cd build && ./gradlew -PversionOverride=1.0 clean build

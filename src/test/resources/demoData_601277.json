@@ -1,0 +1,32 @@
+{"firstName": "Stephen",
+ "surname": "Toast",
+ "sortCode": "601277",
+ "accountNumber": "12345678",
+ "transactions": [
+   {
+     "date": "2016-10-08",
+     "amount": "2000",
+     "balance": "3000",
+     "description": "employer payment"
+   },
+   {
+     "date": "2016-10-08",
+     "amount": "-2000",
+     "balance": "3000",
+     "description": "rent"
+   },
+   {
+     "date": "2016-10-07",
+     "amount": "2000",
+     "balance": "3000",
+     "description": "employer payment"
+   },
+   {
+     "date": "2016-10-06",
+     "amount": "2000",
+     "balance": "6000",
+     "description": "employer payment"
+   }
+  ]
+
+}

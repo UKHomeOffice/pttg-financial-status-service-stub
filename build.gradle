@@ -1,0 +1,74 @@
+group 'pttg-financial-status-service-stub'
+version '1.0-SNAPSHOT'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.13'
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.3.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'spring-boot'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+jar {
+    baseName = 'pttg-financial-status-service-stub'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()    // Pick up the domain jar locally until we have a central repo server.
+    maven { url 'https://repo.spring.io/libs-milestone' }
+}
+
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web:1.3.3.RELEASE'
+    compile 'org.springframework.boot:spring-boot:1.3.3.RELEASE'
+    compile 'org.mongodb:mongodb-driver:3.0.4'
+    compile 'org.mongodb:bson:3.0.4'
+    compile 'org.json:json:20160212'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.7.4'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.4'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.7.4'
+    compile 'org.codehaus.groovy:groovy-all:2.4.3'
+    compile 'org.slf4j:slf4j-parent:1.7.14'
+    compile 'ch.qos.logback:logback-core:1.1.3'
+    compile 'ch.qos.logback:logback-classic:1.1.3'
+    // http://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb
+    compile 'org.springframework.data:spring-data-mongodb:1.9.1.RELEASE'
+    compile 'org.springframework.data:spring-data-commons:1.12.1.RELEASE'
+
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.codehaus.groovy:groovy-all:2.4.3'
+    testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
+    testCompile 'org.spockframework:spock-spring:1.0-groovy-2.4'
+    testCompile 'org.springframework:spring-test:4.2.5.RELEASE'
+    testCompile 'com.jayway.jsonpath:json-path:2.2.0'
+    testCompile 'cglib:cglib-nodep:3.2.1'
+    testCompile 'org.objenesis:objenesis:2.2'
+    // http://mvnrepository.com/artifact/org.assertj/assertj-core
+    testCompile 'org.assertj:assertj-core:3.3.0'
+
+
+    testCompile  'org.json:json:20090211'
+    testCompile 'junit:junit:4.12'
+
+    testCompile 'com.jayway.jsonpath:json-path'
+    testCompile 'org.mockito:mockito-all:1.10.19:'
+}
+
+mainClassName = "uk.gov.digital.ho.proving.income.ServiceRunner"
