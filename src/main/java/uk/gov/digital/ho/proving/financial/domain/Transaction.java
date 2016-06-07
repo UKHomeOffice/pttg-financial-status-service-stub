@@ -47,4 +47,27 @@ public class Transaction {
                 ", balance='" + balance + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Transaction that = (Transaction) o;
+
+        if (!date.equals(that.date)) return false;
+        if (!description.equals(that.description)) return false;
+        if (!amount.equals(that.amount)) return false;
+        return balance.equals(that.balance);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = date.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + amount.hashCode();
+        result = 31 * result + balance.hashCode();
+        return result;
+    }
 }

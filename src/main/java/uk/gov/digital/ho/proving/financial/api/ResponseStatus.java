@@ -9,6 +9,9 @@ public class ResponseStatus {
     private String message;
 
 
+    public ResponseStatus() {
+    }
+
     public ResponseStatus(String code, String message) {
         this.code = code;
         this.message = message;

@@ -1,4 +1,4 @@
-package uk.gov.digital.ho.proving.financial;
+package uk.gov.digital.ho.proving.financial.exception;
 
 public class MongoException extends FinancialStatusStubException{
     public MongoException() {

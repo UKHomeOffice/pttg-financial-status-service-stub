@@ -1,41 +1,27 @@
 package uk.gov.digital.ho.proving.financial.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.QueryBuilder;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.bson.Document;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import uk.gov.digital.ho.proving.financial.AccountNotFoundException;
-import uk.gov.digital.ho.proving.financial.FinancialStatusStubException;
-import uk.gov.digital.ho.proving.financial.MongoException;
+import uk.gov.digital.ho.proving.financial.exception.AccountNotFoundException;
+import uk.gov.digital.ho.proving.financial.exception.FinancialStatusStubException;
+import uk.gov.digital.ho.proving.financial.exception.MongoException;
 import uk.gov.digital.ho.proving.financial.dao.StatementRepository;
 import uk.gov.digital.ho.proving.financial.domain.Statement;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * This class retrieves data from an external sources and converts it to Home Office domain classes. When the HMRC web
- * api is available this class will call the api via a delegate and then convert the response to Home Office
- * domain classes.
  */
 @org.springframework.stereotype.Service
 public class DataService {
-    @Autowired
-    @Qualifier("transactionSummary")
-    DBCollection transactionSummaryCollection;
 
     @Autowired
     private ObjectMapper mapper;
@@ -45,34 +31,19 @@ public class DataService {
 
     private static Logger LOGGER = LoggerFactory.getLogger(DataService.class);
 
-//    // SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-//    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    public Statement getStatement(String sortcode, String account, LocalDate applicationFromDate, LocalDate applicationToDate) {
+        final List<Statement> statementList = repository.findByAccountNumberAndSortCode(account, sortcode);
+        handleNonSingularResult(statementList);
+        final Statement statement = statementList.get(0);
+        statement.setTransactions(statement.getTransactions().stream().filter(tr -> !(tr.getDate().isBefore(applicationFromDate)) && !(tr.getDate().isAfter(applicationToDate))).collect(Collectors.toList()));
 
+        return statement;
+    }
 
-    public Statement lookup(String account, LocalDate applicationFromDate, LocalDate applicationToDate) {
-        DBObject query = new QueryBuilder().start().put("individual.nino").is(account).get();
-        DBCursor cursor = transactionSummaryCollection.find(query);
-
-        if (1 == cursor.size()) {
-            JSONObject jsonResponse = new JSONObject(cursor.next().toString());
-            jsonResponse.remove("_id");
-
-            try {
-                Statement transactions = mapper.readValue(jsonResponse.toString(), Statement.class);
-                //    incomeProvingResponse.setIncomes(incomeProvingResponse.getIncomes().stream().filter( income ->
-                //        !(income.getPayDate().isBefore(applicationFromDate)) && !(income.getPayDate().isAfter(applicationToDate))
-                //    ).collect(Collectors.toList()));
-                LOGGER.info(transactions.toString());
-                return transactions;
-            } catch (Exception e) {
-                LOGGER.error("Could not map JSON from mongodb to Application domain class", e);
-                throw new FinancialStatusStubException("Error reading test data", e);
-            }
-
-        } else {
-            LOGGER.error("Could not retrieve a unique document from mongodb for account [" + account + "]");
-            throw new AccountNotFoundException();
-        }
+    public Statement getStatement(String sortcode, String account) {
+        final List<Statement> statementList = repository.findByAccountNumberAndSortCode(account, sortcode);
+        handleNonSingularResult(statementList);
+        return statementList.get(0);
     }
 
     public void saveTestData(Statement testData) {
@@ -107,5 +78,13 @@ public class DataService {
             repository.insert(testDataStatement);
         }
 
+    }
+
+    private void handleNonSingularResult(List<Statement> statementList) {
+        if (statementList.size() > 1) {
+            throw new FinancialStatusStubException("Invalid data retrieved, unique contraint for sortcode and account number violated");
+        }else if(statementList.isEmpty()) {
+            throw new AccountNotFoundException();
+        }
     }
 }

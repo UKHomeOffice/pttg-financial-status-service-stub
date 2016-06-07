@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uk.gov.digital.ho.proving.financial.AccountNotFoundException;
+import uk.gov.digital.ho.proving.financial.exception.AccountNotFoundException;
 import uk.gov.digital.ho.proving.financial.domain.Statement;
 
 import java.time.LocalDate;
@@ -25,14 +25,14 @@ public class Service {
     @Autowired
     private DataService dataService;
 
-
-    @RequestMapping(value = "/financialstatus/v1/transactions/{account}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<StatementResponse> getTransactions(
+    @RequestMapping(value = "/financialstatus/v1/transactions/{sortcode}/{account}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<StatementResponse> getTransactionsForDateRange(
             @PathVariable(value = "account") String account,
+            @PathVariable(value = "sortcode") String sortcode,
             @RequestParam(value = "fromDate") String fromDateAsString,
             @RequestParam(value = "toDate") String toDateAsString) {
 
-        LOGGER.info(String.format("Financial Status Service STUB invoked for %s account between %s and %s", account, fromDateAsString, toDateAsString));
+        LOGGER.debug(String.format("Financial Status Service STUB invoked for %s sortcode %s account between %s and %s", sortcode, account, fromDateAsString, toDateAsString));
 
         try {
 
@@ -49,7 +49,7 @@ public class Service {
             //flat map - removes the nested optional (if it exists), map uses value if exists or returns optional with absent - so lookup not called
             Optional<Statement> statement = fromDate.flatMap(from ->
                     toDate.map(to ->
-                            dataService.lookup(account, from, to)
+                            dataService.getStatement(sortcode, account, from, to)
                     )
             );
 
@@ -64,9 +64,31 @@ public class Service {
             return buildErrorResponse(new StatementResponse(), "bankcode 4", "Resource not found", HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {
             LOGGER.error("Error retrieving test data", e);
-            return buildErrorResponse(new StatementResponse(), "bankcode 5", "Something went horrifically wrong: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return buildErrorResponse(new StatementResponse(), "bankcode 5", e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    /*@RequestMapping(value = "/financialstatus/v1/transactions/{sortcode}/{account}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<StatementResponse> getTransactions(
+            @PathVariable(value = "account") String account, @PathVariable(value = "sortcode") String sortcode) {
+
+        LOGGER.debug(String.format("Financial Status Service STUB invoked for %s sortcode %s account ", sortcode, account));
+
+        try {
+
+            Statement statement = dataService.getStatement(sortcode, account);
+            StatementResponse incomeRetrievalResponse = new StatementResponse();
+            incomeRetrievalResponse.setTransactions(statement.getTransactions());
+            return new ResponseEntity<>(incomeRetrievalResponse, HttpStatus.OK);
+
+        } catch (AccountNotFoundException e) {
+            return buildErrorResponse(new StatementResponse(), "bankcode 4", "Resource not found", HttpStatus.NOT_FOUND);
+        } catch (RuntimeException e) {
+            LOGGER.error("Error retrieving test data", e);
+            return buildErrorResponse(new StatementResponse(), "bankcode 5", e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }*/
 
     @RequestMapping(value = "/financialstatus/v1/transactions", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<StatementListResponse> getAllTransactions() {

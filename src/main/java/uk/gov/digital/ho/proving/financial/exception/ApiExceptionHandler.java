@@ -1,4 +1,4 @@
-package uk.gov.digital.ho.proving.financial;
+package uk.gov.digital.ho.proving.financial.exception;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import uk.gov.digital.ho.proving.financial.api.BaseResponse;
 import uk.gov.digital.ho.proving.financial.api.ResponseStatus;
 //todo

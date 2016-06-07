@@ -40,15 +40,6 @@ public class ServiceConfiguration {
     }
 
 
-    @Bean(name="transactionSummary")
-    public DBCollection getApplicationsCollection() {
-        MongoClient mongoClient = new MongoClient();
-        MongoDatabase db = mongoClient.getDatabase("test");
-        DBCollection coll = mongoClient.getDB("test").getCollection("transactionSummary");
-
-        return coll;
-    }
-
     public @Bean
     MongoDbFactory mongoDbFactory() throws Exception {
         return new SimpleMongoDbFactory(new MongoClient(), "test");
