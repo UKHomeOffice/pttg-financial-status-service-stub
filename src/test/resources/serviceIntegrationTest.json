@@ -5,27 +5,19 @@
  "transactions": [
    {
      "date": "2015-10-08",
-     "amount": "2000",
-     "balance": "3000",
-     "description": "employer payment"
+     "balance": "3000"
    },
    {
      "date": "2016-10-08",
-     "amount": "-2000",
-     "balance": "3000",
-     "description": "rent"
+     "balance": "3000"
    },
    {
      "date": "2016-10-07",
-     "amount": "2000",
-     "balance": "3000",
-     "description": "employer payment"
+     "balance": "3000"
    },
    {
      "date": "2016-10-06",
-     "amount": "2000",
-     "balance": "6000",
-     "description": "employer payment"
+     "balance": "6000"
    }
   ]
 

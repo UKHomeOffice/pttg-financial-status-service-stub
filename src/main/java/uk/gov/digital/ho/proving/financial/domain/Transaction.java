@@ -8,17 +8,13 @@ public class Transaction {
 
     @JsonFormat(shape=JsonFormat.Shape.STRING)
     private LocalDate date;
-    private String description;
-    private String amount;
     private String balance;
 
     public Transaction() {
     }
 
-    public Transaction(LocalDate date, String description, String amount, String balance) {
+    public Transaction(LocalDate date, String balance) {
         this.date = date;
-        this.description = description;
-        this.amount = amount;
         this.balance = balance;
     }
 
@@ -26,13 +22,6 @@ public class Transaction {
         return date;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public String getAmount() {
-        return amount;
-    }
 
     public String getBalance() {
         return balance;
@@ -42,8 +31,6 @@ public class Transaction {
     public String toString() {
         return "Transaction{" +
                 "date=" + date +
-                ", description='" + description + '\'' +
-                ", amount='" + amount + '\'' +
                 ", balance='" + balance + '\'' +
                 '}';
     }
@@ -56,8 +43,6 @@ public class Transaction {
         Transaction that = (Transaction) o;
 
         if (!date.equals(that.date)) return false;
-        if (!description.equals(that.description)) return false;
-        if (!amount.equals(that.amount)) return false;
         return balance.equals(that.balance);
 
     }
@@ -65,8 +50,6 @@ public class Transaction {
     @Override
     public int hashCode() {
         int result = date.hashCode();
-        result = 31 * result + description.hashCode();
-        result = 31 * result + amount.hashCode();
         result = 31 * result + balance.hashCode();
         return result;
     }

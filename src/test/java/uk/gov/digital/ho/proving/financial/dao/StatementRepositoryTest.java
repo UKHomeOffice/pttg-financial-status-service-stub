@@ -65,7 +65,7 @@ public class StatementRepositoryTest {
 
     private Statement createStatement() {
         Statement statement = new Statement("Jane", "Brown", SORT_CODE, ACCOUNT_NUMBER);
-        Transaction tr = new Transaction(TRANSACTION_DATE, "Payment 1", "5000", "2000");
+        Transaction tr = new Transaction(TRANSACTION_DATE,"2000");
         final ArrayList<Transaction> transactions = new ArrayList<>();
         transactions.add(tr);
         statement.setTransactions(transactions);

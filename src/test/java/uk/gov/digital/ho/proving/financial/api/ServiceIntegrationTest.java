@@ -37,8 +37,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @PropertySource("classpath:application.properties")
 public class ServiceIntegrationTest {
 
-    public static final String TR_ONE_DESC = "employer payment";
-    public static final String TR_ONE_AMOUNT = "2000";
     public static final String TR_ONE_BALANCE = "3000";
     private static Logger LOGGER = LoggerFactory.getLogger(ServiceIntegrationTest.class);
 
@@ -99,7 +97,7 @@ public class ServiceIntegrationTest {
 
         ResponseEntity<StatementResponse> testStatement = restTemplate.getForEntity(targetUrl, StatementResponse.class);
 
-        assertThat(testStatement.getBody().getTransactions()).hasSize(1).contains(new Transaction(TR_ONE_DATE, TR_ONE_DESC, TR_ONE_AMOUNT, TR_ONE_BALANCE));
+        assertThat(testStatement.getBody().getTransactions()).hasSize(1).contains(new Transaction(TR_ONE_DATE, TR_ONE_BALANCE));
     }
 
     @Test
@@ -119,7 +117,7 @@ public class ServiceIntegrationTest {
 
         ResponseEntity<StatementResponse> testStatement = restTemplate.getForEntity(targetUrl, StatementResponse.class);
 
-        assertThat(testStatement.getBody().getTransactions()).hasSize(4).contains(new Transaction(TR_ONE_DATE, TR_ONE_DESC, TR_ONE_AMOUNT, TR_ONE_BALANCE));
+        assertThat(testStatement.getBody().getTransactions()).hasSize(4).contains(new Transaction(TR_ONE_DATE, TR_ONE_BALANCE));
     }
 
     private URI buildStatementSearchByDateUri(String accountNumber) {
