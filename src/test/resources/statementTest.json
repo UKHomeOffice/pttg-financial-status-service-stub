@@ -1,0 +1,14 @@
+{ "firstName" : "Ray",
+  "surname" : "Purchase",
+  "sortCode" : "601234",
+  "accountNumber" : "12345678",
+  "transactions" : [ {
+     "date" : "2016-10-08",
+     "balance" : "3000"
+   },
+   {
+     "date" : "2016-10-07",
+     "balance" : "3000"
+   }  ]
+
+}

@@ -3,6 +3,7 @@ package uk.gov.digital.ho.proving.financial.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Document
@@ -13,7 +14,9 @@ public class Statement{
 
     private String firstName;
     private String surname;
+    @NotNull
     private String sortCode;
+    @NotNull
     private String accountNumber;
 
     private List<Transaction> transactions;
@@ -82,25 +85,27 @@ public class Statement{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Statement)) return false;
 
         Statement statement = (Statement) o;
 
-        if (!firstName.equals(statement.firstName)) return false;
-        if (!surname.equals(statement.surname)) return false;
+        if (id != null ? !id.equals(statement.id) : statement.id != null) return false;
+        if (firstName != null ? !firstName.equals(statement.firstName) : statement.firstName != null) return false;
+        if (surname != null ? !surname.equals(statement.surname) : statement.surname != null) return false;
         if (!sortCode.equals(statement.sortCode)) return false;
         if (!accountNumber.equals(statement.accountNumber)) return false;
-        return transactions.equals(statement.transactions);
+        return transactions != null ? transactions.equals(statement.transactions) : statement.transactions == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = firstName.hashCode();
-        result = 31 * result + surname.hashCode();
-        result = 31 * result + sortCode.hashCode();
-        result = 31 * result + accountNumber.hashCode();
-        result = 31 * result + transactions.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        result = 31 * result + (sortCode != null ? sortCode.hashCode() : 0);
+        result = 31 * result + (accountNumber != null ? accountNumber.hashCode() : 0);
+        result = 31 * result + (transactions != null ? transactions.hashCode() : 0);
         return result;
     }
 }

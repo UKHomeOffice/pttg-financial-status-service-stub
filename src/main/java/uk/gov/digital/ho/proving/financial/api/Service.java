@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import uk.gov.digital.ho.proving.financial.exception.AccountNotFoundException;
 import uk.gov.digital.ho.proving.financial.domain.Statement;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -106,7 +107,7 @@ public class Service {
     }
 
     @RequestMapping(value = "/financialstatus/v1/transactions", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> createTestData(@RequestBody Statement testData) {
+    public ResponseEntity<?> createTestData(@RequestBody @Valid Statement testData) {
 
         LOGGER.info(String.format("Financial Status Service STUB invoked for testdata %s", testData));
 

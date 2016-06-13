@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.Assert.*;
 
 public class TransactionTest {
@@ -28,7 +29,7 @@ public class TransactionTest {
         Transaction tr = new Transaction(LocalDate.parse("2016-10-08"),"3000");
         String jsonInString = mapper.writeValueAsString(tr);
 
-        Assertions.assertThat(jsonInString).isEqualToIgnoringWhitespace(getJsonResource("transactionTest.json"));
+        assertThat(jsonInString).isEqualToIgnoringWhitespace(getJsonResource("transactionTest.json"));
     }
 
     @Test
@@ -37,7 +38,7 @@ public class TransactionTest {
         Transaction tr = mapper.readValue(getJsonResource("transactionTest.json"), Transaction.class);
         Transaction trToMatch = new Transaction(LocalDate.parse("2016-10-08"),"3000");
 
-        Assertions.assertThat(tr).isEqualTo(trToMatch);
+        assertThat(tr).isEqualTo(trToMatch);
     }
 
 
