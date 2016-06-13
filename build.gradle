@@ -71,4 +71,4 @@ dependencies {
     testCompile 'org.mockito:mockito-all:1.10.19:'
 }
 
-mainClassName = "uk.gov.digital.ho.proving.income.ServiceRunner"
+mainClassName = "uk.gov.digital.ho.proving.financial.ServiceRunner"
