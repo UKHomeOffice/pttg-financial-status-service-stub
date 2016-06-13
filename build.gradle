@@ -41,6 +41,7 @@ dependencies {
     compile 'org.mongodb:bson:3.0.4'
     compile 'org.json:json:20160212'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.7.4'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.7.4'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.4'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.7.4'
     compile 'org.codehaus.groovy:groovy-all:2.4.3'
