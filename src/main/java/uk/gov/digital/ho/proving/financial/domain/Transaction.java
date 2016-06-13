@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class Transaction {
 
-    //@JsonFormat(shape=JsonFormat.Shape.STRING)
+    @JsonFormat(shape=JsonFormat.Shape.STRING)
     private LocalDate date;
     private String description;
     private String amount;
