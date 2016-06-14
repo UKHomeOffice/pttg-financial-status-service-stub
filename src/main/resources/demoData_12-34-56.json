@@ -1,7 +1,7 @@
 {"firstName": "Ray",
  "surname": "Purchase",
- "sortCode": "601234",
- "accountNumber": "12345678",
+ "sortCode": "12-34-56",
+ "accountNumber": "01010312",
  "transactions": [
    {
      "date": "2016-10-08",
