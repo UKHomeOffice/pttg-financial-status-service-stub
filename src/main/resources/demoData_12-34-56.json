@@ -1,24 +1,24 @@
 {"firstName": "Ray",
- "surname": "Purchase",
- "sortCode": "601234",
- "accountNumber": "12345678",
- "balanceRecords": [
-   {
-     "date": "2016-10-08",
-     "balance": "3000"
-   },
-   {
-     "date": "2016-10-08",
-     "balance": "3000"
-   },
-   {
-     "date": "2016-10-07",
-     "balance": "3000"
-   },
-   {
-     "date": "2016-10-06",
-     "balance": "6000"
-   }
+  "surname": "Purchase",
+  "sortCode": "123456",
+  "accountNumber": "01010312",
+  "balanceRecords": [
+    {
+      "date": "2016-10-08",
+      "balance": "3000"
+    },
+    {
+      "date": "2016-10-08",
+      "balance": "3000"
+    },
+    {
+      "date": "2016-10-07",
+      "balance": "3000"
+    },
+    {
+      "date": "2016-10-06",
+      "balance": "6000"
+    }
   ]
 
 }
