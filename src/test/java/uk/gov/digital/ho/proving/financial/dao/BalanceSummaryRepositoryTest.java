@@ -2,6 +2,7 @@ package uk.gov.digital.ho.proving.financial.dao;
 
 import org.assertj.core.api.Assertions;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,7 @@ public class BalanceSummaryRepositoryTest {
         Assertions.assertThat(loadedBalanceSummary).hasSize(0);
     }
 
+    @Ignore
     @Test
     public void findByAccountNumberAndSortCode() throws Exception {
 
