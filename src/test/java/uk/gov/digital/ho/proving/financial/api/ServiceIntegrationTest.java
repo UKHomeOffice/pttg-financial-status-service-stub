@@ -18,7 +18,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.digital.ho.proving.financial.ServiceRunner;
-import uk.gov.digital.ho.proving.financial.domain.Transaction;
+import uk.gov.digital.ho.proving.financial.domain.BalanceRecord;
 
 import java.io.IOException;
 import java.net.URI;
@@ -46,9 +46,9 @@ public class ServiceIntegrationTest {
     @Value("${local.server.port}")
     private int port;
 
-    final String PATH = "/financialstatus/v1/transactions";
+    final String PATH = "/financialstatus/v1";
 
-    final String PATH_ACCOUNT = "/financialstatus/v1/transactions/{sortcode}/{account}";
+    final String PATH_ACCOUNT = "/financialstatus/v1/{sortcode}/{account}/balances";
     public static final LocalDate TR_FROM_DATE = LocalDate.parse("2014-03-25");
     public static final LocalDate TR_TO_DATE = LocalDate.parse("2016-03-25");
     public static final LocalDate TR_ONE_DATE = LocalDate.parse("2015-10-08");
@@ -73,11 +73,11 @@ public class ServiceIntegrationTest {
 
     @Test
     public void setupAndTearDownTestData() throws Exception {
-        verifyNumberOfPersistedStatements(3);
+        verifyNumberOfPersistedBalanceSummaries(3);
 
         clearTestSpecificData();
 
-        verifyNumberOfPersistedStatements(2);
+        verifyNumberOfPersistedBalanceSummaries(2);
     }
 
     @Test
@@ -91,33 +91,33 @@ public class ServiceIntegrationTest {
 
 
     @Test
-    public void getTransactionsByAccountAndDateRange() throws Exception {
+    public void getBalanceRecordsByAccountAndDateRange() throws Exception {
 
         URI targetUrl = buildStatementSearchByDateUri(ACCOUNT_NUMBER);
 
-        ResponseEntity<StatementResponse> testStatement = restTemplate.getForEntity(targetUrl, StatementResponse.class);
+        ResponseEntity<BalanceRecordResponse> testStatement = restTemplate.getForEntity(targetUrl, BalanceRecordResponse.class);
 
-        assertThat(testStatement.getBody().getTransactions()).hasSize(1).contains(new Transaction(TR_ONE_DATE, TR_ONE_BALANCE));
+        assertThat(testStatement.getBody().getBalanceRecords()).hasSize(1).contains(new BalanceRecord(TR_ONE_DATE, TR_ONE_BALANCE));
     }
 
     @Test
-    public void getTransactionsByAccountAndDateRange_accountNotFound() throws Exception {
+    public void getBalanceRecordsByAccountAndDateRange_accountNotFound() throws Exception {
 
         URI targetUrl = buildStatementSearchByDateUri(ACCOUNT_NUMBER_NOT_MATCHED);
 
-        ResponseEntity<StatementResponse> response = restTemplate.getForEntity(targetUrl, StatementResponse.class);
+        ResponseEntity<BalanceRecordResponse> response = restTemplate.getForEntity(targetUrl, BalanceRecordResponse.class);
 
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
     }
 
     //todo if required
-    public void getTransactionsByAccount() throws Exception {
+    public void getBalanceRecordsByAccount() throws Exception {
 
         URI targetUrl = buildStatementSearchByDateUri(ACCOUNT_NUMBER);
 
-        ResponseEntity<StatementResponse> testStatement = restTemplate.getForEntity(targetUrl, StatementResponse.class);
+        ResponseEntity<BalanceRecordResponse> testStatement = restTemplate.getForEntity(targetUrl, BalanceRecordResponse.class);
 
-        assertThat(testStatement.getBody().getTransactions()).hasSize(4).contains(new Transaction(TR_ONE_DATE, TR_ONE_BALANCE));
+        assertThat(testStatement.getBody().getBalanceRecords()).hasSize(4).contains(new BalanceRecord(TR_ONE_DATE, TR_ONE_BALANCE));
     }
 
     private URI buildStatementSearchByDateUri(String accountNumber) {
@@ -131,12 +131,12 @@ public class ServiceIntegrationTest {
 
 
     private void clearTestSpecificData() {
-        restTemplate.delete(getBaseUrl()+PATH,StatementResponse.class);
+        restTemplate.delete(getBaseUrl()+PATH,BalanceRecordResponse.class);
     }
 
-    private void verifyNumberOfPersistedStatements(int expected) {
-        ResponseEntity<StatementListResponse> allData = restTemplate.getForEntity(getBaseUrl()+PATH, StatementListResponse.class);
-        assertThat(allData.getBody().getStatements()).hasSize(expected);
+    private void verifyNumberOfPersistedBalanceSummaries(int expected) {
+        ResponseEntity<BalanceSummariesResponse> allData = restTemplate.getForEntity(getBaseUrl()+PATH, BalanceSummariesResponse.class);
+        assertThat(allData.getBody().getBalanceSummaries()).hasSize(expected);
     }
 
     private void createNonDemoTestData() {
