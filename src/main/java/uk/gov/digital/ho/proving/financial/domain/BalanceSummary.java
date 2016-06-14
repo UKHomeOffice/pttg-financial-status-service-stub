@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Document
-public class Statement{
+public class BalanceSummary {
 
     @Id
     private String id;
@@ -19,24 +19,29 @@ public class Statement{
     @NotNull
     private String accountNumber;
 
-    private List<Transaction> transactions;
+    private List<BalanceRecord> balanceRecords;
 
-    public Statement() {
+    public BalanceSummary() {
     }
 
-    public Statement(String firstName, String surname, String sortCode, String accountNumber) {
+    public BalanceSummary(String firstName, String surname, String sortCode, String accountNumber) {
         this.firstName = firstName;
         this.surname = surname;
         this.sortCode = sortCode;
         this.accountNumber = accountNumber;
     }
 
-    public List<Transaction> getTransactions() {
-        return transactions;
+    public BalanceSummary(String sortCode, String accountNumber) {
+        this.sortCode = sortCode;
+        this.accountNumber = accountNumber;
     }
 
-    public void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
+    public List<BalanceRecord> getBalanceRecords() {
+        return balanceRecords;
+    }
+
+    public void setBalanceRecords(List<BalanceRecord> balanceRecords) {
+        this.balanceRecords = balanceRecords;
     }
 
     public String getFirstName() {
@@ -73,28 +78,28 @@ public class Statement{
 
     @Override
     public String toString() {
-        return "Statement{" +
+        return "BalanceSummary{" +
                 "firstName='" + firstName + '\'' +
                 ", surname='" + surname + '\'' +
                 ", sortCode='" + sortCode + '\'' +
                 ", accountNumber='" + accountNumber + '\'' +
-                ", transactions=" + transactions +
+                ", balanceRecords=" + balanceRecords +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Statement)) return false;
+        if (!(o instanceof BalanceSummary)) return false;
 
-        Statement statement = (Statement) o;
+        BalanceSummary balanceSummary = (BalanceSummary) o;
 
-        if (id != null ? !id.equals(statement.id) : statement.id != null) return false;
-        if (firstName != null ? !firstName.equals(statement.firstName) : statement.firstName != null) return false;
-        if (surname != null ? !surname.equals(statement.surname) : statement.surname != null) return false;
-        if (!sortCode.equals(statement.sortCode)) return false;
-        if (!accountNumber.equals(statement.accountNumber)) return false;
-        return transactions != null ? transactions.equals(statement.transactions) : statement.transactions == null;
+        if (id != null ? !id.equals(balanceSummary.id) : balanceSummary.id != null) return false;
+        if (firstName != null ? !firstName.equals(balanceSummary.firstName) : balanceSummary.firstName != null) return false;
+        if (surname != null ? !surname.equals(balanceSummary.surname) : balanceSummary.surname != null) return false;
+        if (!sortCode.equals(balanceSummary.sortCode)) return false;
+        if (!accountNumber.equals(balanceSummary.accountNumber)) return false;
+        return balanceRecords != null ? balanceRecords.equals(balanceSummary.balanceRecords) : balanceSummary.balanceRecords == null;
 
     }
 
@@ -105,7 +110,7 @@ public class Statement{
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
         result = 31 * result + (sortCode != null ? sortCode.hashCode() : 0);
         result = 31 * result + (accountNumber != null ? accountNumber.hashCode() : 0);
-        result = 31 * result + (transactions != null ? transactions.hashCode() : 0);
+        result = 31 * result + (balanceRecords != null ? balanceRecords.hashCode() : 0);
         return result;
     }
 }

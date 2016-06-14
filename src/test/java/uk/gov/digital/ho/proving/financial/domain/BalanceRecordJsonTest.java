@@ -1,12 +1,10 @@
 package uk.gov.digital.ho.proving.financial.domain;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.gov.digital.ho.proving.financial.ServiceConfiguration;
-import uk.gov.digital.ho.proving.financial.api.ServiceIntegrationTest;
 
 import java.io.IOException;
 import java.net.URI;
@@ -17,16 +15,15 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.Assert.*;
 
-public class TransactionTest {
+public class BalanceRecordJsonTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(TransactionTest.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(BalanceRecordJsonTest.class);
 
     @Test
     public void toJson() throws Exception {
         ObjectMapper mapper = new ServiceConfiguration().getMapper();
-        Transaction tr = new Transaction(LocalDate.parse("2016-10-08"),"3000");
+        BalanceRecord tr = new BalanceRecord(LocalDate.parse("2016-10-08"),"3000");
         String jsonInString = mapper.writeValueAsString(tr);
 
         assertThat(jsonInString).isEqualToIgnoringWhitespace(getJsonResource("transactionTest.json"));
@@ -35,8 +32,8 @@ public class TransactionTest {
     @Test
     public void fromJson() throws Exception {
         ObjectMapper mapper = new ServiceConfiguration().getMapper();
-        Transaction tr = mapper.readValue(getJsonResource("transactionTest.json"), Transaction.class);
-        Transaction trToMatch = new Transaction(LocalDate.parse("2016-10-08"),"3000");
+        BalanceRecord tr = mapper.readValue(getJsonResource("transactionTest.json"), BalanceRecord.class);
+        BalanceRecord trToMatch = new BalanceRecord(LocalDate.parse("2016-10-08"),"3000");
 
         assertThat(tr).isEqualTo(trToMatch);
     }

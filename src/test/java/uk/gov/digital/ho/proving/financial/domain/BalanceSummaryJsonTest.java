@@ -18,14 +18,14 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class StatementTest {
+public class BalanceSummaryJsonTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(StatementTest.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(BalanceSummaryJsonTest.class);
 
     @Test
     public void toJson() throws Exception {
         ObjectMapper mapper = new ServiceConfiguration().getMapper();
-        Statement st = getStatement();
+        BalanceSummary st = getStatement();
         String jsonInString = mapper.writeValueAsString(st);
 
         assertThat(jsonInString).isEqualToIgnoringWhitespace(getJsonResource("statementTest.json"));
@@ -35,8 +35,8 @@ public class StatementTest {
     @Test
     public void fromJson() throws Exception {
         ObjectMapper mapper = new ServiceConfiguration().getMapper();
-        Statement tr = mapper.readValue(getJsonResource("statementTest.json"), Statement.class);
-        Statement trToMatch = getStatement();
+        BalanceSummary tr = mapper.readValue(getJsonResource("statementTest.json"), BalanceSummary.class);
+        BalanceSummary trToMatch = getStatement();
 
         assertThat(tr).isEqualTo(trToMatch);
     }
@@ -54,12 +54,12 @@ public class StatementTest {
         return data;
     }
 
-    private Statement getStatement() {
-        Statement st = new Statement("Ray", "Purchase", "601234", "12345678");
+    private BalanceSummary getStatement() {
+        BalanceSummary st = new BalanceSummary("Ray", "Purchase", "601234", "12345678");
         List trs = new ArrayList<>();
-        trs.add(new Transaction(LocalDate.parse("2016-10-08"), "3000"));
-        trs.add(new Transaction(LocalDate.parse("2016-10-07"), "3000"));
-        st.setTransactions(trs);
+        trs.add(new BalanceRecord(LocalDate.parse("2016-10-08"), "3000"));
+        trs.add(new BalanceRecord(LocalDate.parse("2016-10-07"), "3000"));
+        st.setBalanceRecords(trs);
         return st;
     }
 

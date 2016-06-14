@@ -1,8 +1,8 @@
 {"firstName": "Ray",
  "surname": "Purchase",
- "sortCode": "12-34-56",
- "accountNumber": "01010312",
- "transactions": [
+ "sortCode": "601234",
+ "accountNumber": "12345678",
+ "balanceRecords": [
    {
      "date": "2016-10-08",
      "balance": "3000"

@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Document
-public class Transaction {
+public class BalanceRecord {
 
     @JsonFormat(shape=JsonFormat.Shape.STRING)
     @NotNull
@@ -15,10 +15,10 @@ public class Transaction {
     @NotNull
     private String balance;
 
-    public Transaction() {
+    public BalanceRecord() {
     }
 
-    public Transaction(LocalDate date, String balance) {
+    public BalanceRecord(LocalDate date, String balance) {
         this.date = date;
         this.balance = balance;
     }
@@ -42,7 +42,7 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "Transaction{" +
+        return "BalanceRecord{" +
                 "date=" + date +
                 ", balance='" + balance + '\'' +
                 '}';
@@ -51,9 +51,9 @@ public class Transaction {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Transaction)) return false;
+        if (!(o instanceof BalanceRecord)) return false;
 
-        Transaction that = (Transaction) o;
+        BalanceRecord that = (BalanceRecord) o;
 
         if (date != null ? !date.equals(that.date) : that.date != null) return false;
         return balance != null ? balance.equals(that.balance) : that.balance == null;
