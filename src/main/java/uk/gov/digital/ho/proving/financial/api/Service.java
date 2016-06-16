@@ -81,7 +81,7 @@ public class Service {
             dataService.saveTestData(testData);
         } catch (RuntimeException e) {
             LOGGER.error("Error persisting test data", e);
-            return buildErrorResponse(new BalanceRecordResponse(), "0001", "Error persisting testData test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return buildErrorResponse(new BalanceRecordResponse(), "bankcode 5", "Error persisting testData test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return ResponseEntity.ok().build();
     }
@@ -101,7 +101,7 @@ public class Service {
             dataService.saveTestData(balanceSummary);
         } catch (RuntimeException e) {
             LOGGER.error("Error persisting test data", e);
-            return buildErrorResponse(new BalanceRecordResponse(), "0001", "Error persisting testData test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return buildErrorResponse(new BalanceRecordResponse(), "bankcode 5", "Error persisting testData test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return ResponseEntity.ok().build();
     }
@@ -114,8 +114,8 @@ public class Service {
             return new ResponseEntity<>(new BalanceRecordResponse(), HttpStatus.OK);
 
         } catch (Exception e) {
-            LOGGER.error("Error retrieving test data", e);
-            return buildErrorResponse(new BalanceRecordResponse(), "bankcode 5", "Something went horrifically wrong: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            LOGGER.error("Error deleting test data", e);
+            return buildErrorResponse(new BalanceRecordResponse(), "bankcode 5", "Error deleting test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -130,7 +130,7 @@ public class Service {
 
         } catch (RuntimeException e) {
             LOGGER.error("Error retrieving test data", e);
-            return buildErrorResponse(new BalanceSummariesResponse(), "bankcode 5", "Something went horrifically wrong: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return buildErrorResponse(new BalanceSummariesResponse(), "bankcode 5", "Error retrieving test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

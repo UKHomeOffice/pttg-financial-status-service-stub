@@ -94,7 +94,7 @@ public class BalanceSummary {
 
         BalanceSummary balanceSummary = (BalanceSummary) o;
 
-        if (id != null ? !id.equals(balanceSummary.id) : balanceSummary.id != null) return false;
+        if (id != null && balanceSummary.id!=null? !id.equals(balanceSummary.id) : balanceSummary.id != null) return false;
         if (firstName != null ? !firstName.equals(balanceSummary.firstName) : balanceSummary.firstName != null) return false;
         if (surname != null ? !surname.equals(balanceSummary.surname) : balanceSummary.surname != null) return false;
         if (!sortCode.equals(balanceSummary.sortCode)) return false;
