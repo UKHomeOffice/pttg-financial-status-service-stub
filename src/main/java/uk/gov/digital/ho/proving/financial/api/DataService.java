@@ -34,6 +34,7 @@ public class DataService {
     public BalanceSummary getStatement(String sortcode, String account, LocalDate applicationFromDate, LocalDate applicationToDate) {
         final BalanceSummary balanceSummary = getBalanceSummaryUnfiltered(sortcode, account);
         balanceSummary.setBalanceRecords(balanceSummary.getBalanceRecords().stream().filter(tr -> !(tr.getDate().isBefore(applicationFromDate)) && !(tr.getDate().isAfter(applicationToDate))).collect(Collectors.toList()));
+        LOGGER.debug("returning balance records: {}", balanceSummary.getBalanceRecords());
         return balanceSummary;
     }
 

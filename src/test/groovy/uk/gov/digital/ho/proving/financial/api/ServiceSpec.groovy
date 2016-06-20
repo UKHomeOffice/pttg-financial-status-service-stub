@@ -26,7 +26,7 @@ class ServiceSpec extends Specification {
     Service service = new Service()
     MockMvc mockMvc = standaloneSetup(service).build()
 
-    final String PATH = "/financialstatus/v1"
+    final String PATH = "/financialstatus/v1/accounts"
 
     final String PATH_ACCOUNT = "/financialstatus/v1/{sortcode}/{account}/balances"
 

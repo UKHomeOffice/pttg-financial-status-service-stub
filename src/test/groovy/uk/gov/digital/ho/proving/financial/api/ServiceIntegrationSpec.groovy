@@ -1,6 +1,5 @@
 package uk.gov.digital.ho.proving.financial.api
 
-import groovy.json.JsonSlurper
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -40,9 +39,11 @@ class ServiceIntegrationSpec extends Specification{
     @Value('${local.server.port}')
     private int port
 
-    final String PATH = "/financialstatus/v1"
+    final String PATH_ROOT = "/financialstatus/v1"
 
-    final String PATH_ACCOUNT = "/financialstatus/v1/{sortcode}/{account}/balances"
+    final String PATH_ALL_ACCOUNTS = PATH_ROOT + "/accounts"
+
+    final String PATH_ACCOUNT = PATH_ROOT + "/{sortcode}/{account}/balances"
     static final LocalDate TR_FROM_DATE = LocalDate.parse("2014-03-25")
     static final LocalDate TR_TO_DATE = LocalDate.parse("2016-03-25")
     static final LocalDate TR_ONE_DATE = LocalDate.parse("2015-10-08")
@@ -145,30 +146,30 @@ class ServiceIntegrationSpec extends Specification{
 
 
     private void clearTestSpecificData() {
-        restTemplate.delete(getBaseUrl()+PATH,BalanceRecordResponse.class)
+        restTemplate.delete(getBaseUrl()+PATH_ALL_ACCOUNTS,BalanceRecordResponse.class)
     }
 
     private void verifyNumberOfPersistedBalanceSummaries(int expected) {
-        ResponseEntity<BalanceSummariesResponse> allData = restTemplate.getForEntity(getBaseUrl()+PATH, BalanceSummariesResponse.class)
+        ResponseEntity<BalanceSummariesResponse> allData = restTemplate.getForEntity(getBaseUrl()+PATH_ALL_ACCOUNTS, BalanceSummariesResponse.class)
         assert allData.getBody().getBalanceSummaries().size() == expected
     }
 
     private int getNumberOfPersistedBalanceSummaries() {
-        restTemplate.getForEntity(getBaseUrl()+PATH, BalanceSummariesResponse.class).body.balanceSummaries.size()
+        restTemplate.getForEntity(getBaseUrl()+PATH_ALL_ACCOUNTS, BalanceSummariesResponse.class).body.balanceSummaries.size()
     }
 
     def createNonDemoTestData() {
         final HttpHeaders headers = new HttpHeaders()
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
         final HttpEntity<String> requestEntity = new HttpEntity<>(getNonDemoData("serviceIntegrationTest.json"), headers)
-        restTemplate.postForEntity(getBaseUrl()+PATH, requestEntity, String.class)
+        restTemplate.postForEntity(getBaseUrl()+PATH_ALL_ACCOUNTS, requestEntity, String.class)
     }
 
     private ResponseEntity<String> createInvalidJsonNonDemoTestData() {
         final HttpHeaders headers = new HttpHeaders()
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
         final HttpEntity<String> requestEntity = new HttpEntity<>(getNonDemoData("serviceIntegrationTest_invalidJson.json"), headers)
-        return restTemplate.postForEntity(getBaseUrl() + PATH, requestEntity, String.class)
+        return restTemplate.postForEntity(getBaseUrl() + PATH_ALL_ACCOUNTS, requestEntity, String.class)
     }
 
 

@@ -72,7 +72,7 @@ public class Service {
 
 
     /*persist complete Balance summary (account information and balance records) throws FinancialStatusStubException if account already exists*/
-    @RequestMapping(value = "/financialstatus/v1", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/financialstatus/v1/accounts", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> createTestData(@RequestBody @Valid BalanceSummary testData) {
 
         LOGGER.info(String.format("Financial Status Service STUB invoked for testdata %s", testData));
@@ -106,7 +106,7 @@ public class Service {
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(value = "/financialstatus/v1", method = RequestMethod.DELETE, produces = "application/json")
+    @RequestMapping(value = "/financialstatus/v1/accounts", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity<BalanceRecordResponse> deleteTestData() {
 
         try {
@@ -119,7 +119,7 @@ public class Service {
         }
     }
 
-    @RequestMapping(value = "/financialstatus/v1", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/financialstatus/v1/accounts", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<BalanceSummariesResponse> getAllTestData() {
 
         try {
