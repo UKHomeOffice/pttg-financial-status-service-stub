@@ -5,6 +5,7 @@ import groovy.json.JsonSlurper
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import spock.lang.Specification
+import spock.lang.Unroll
 import uk.gov.digital.ho.proving.financial.ServiceConfiguration
 import uk.gov.digital.ho.proving.financial.domain.BalanceRecord
 import uk.gov.digital.ho.proving.financial.domain.BalanceSummary
@@ -100,14 +101,20 @@ class ServiceSpec extends Specification {
         jsonContent.status.message == "Parameter error: To date is invalid"
     }
 
-    def "invalid from date is rejected"() {
+    @Unroll
+    def "invalid from date is rejected - #invalidBecause"() {
         when:
-        def response = mockMvc.perform(get(PATH_ACCOUNT, SORT_CODE, ACCOUNT_NUMBER).param("fromDate", "20155-10-10").param("toDate", "2016-05-10"))
+        def response = mockMvc.perform(get(PATH_ACCOUNT, SORT_CODE, ACCOUNT_NUMBER).param("fromDate", date).param("toDate", "2016-05-10"))
 
         then:
         def jsonContent = new JsonSlurper().parseText(response.andReturn().response.getContentAsString())
         response.andExpect(status().isBadRequest())
         jsonContent.status.message == "Parameter error: From date is invalid"
+
+        where:
+        date  | invalidBecause
+        '20155-10-10'   | 'invalid year length'
+        '2015-02-32' | 'invalid 32nd March'
     }
 
     def "error writing to database"() {
@@ -136,7 +143,6 @@ class ServiceSpec extends Specification {
         then:
         response.andExpect(status().isBadRequest())
     }
-
 
     private static BalanceSummary createBalanceSummary() {
         BalanceSummary balanceSummary = new BalanceSummary("Jane", "Brown", SORT_CODE, ACCOUNT_NUMBER)
