@@ -6,7 +6,12 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDbFactory;
@@ -21,6 +26,18 @@ import java.time.format.DateTimeFormatter;
 
 @Configuration
 public class ServiceConfiguration {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(ServiceConfiguration.class);
+
+    @Value("${mongodb.ssl}")
+    private boolean ssl;
+
+    @Value("${mongodb.service}")
+    private String mongodbService;
+
+    @Value("${mongodb.connect.timeout.millis}")
+    private int mongodbConnectTimeout = 30000;
+
     @Bean
     public Jackson2ObjectMapperBuilder jacksonBuilder() {
         Jackson2ObjectMapperBuilder b = new Jackson2ObjectMapperBuilder();
@@ -42,7 +59,7 @@ public class ServiceConfiguration {
 
     public @Bean
     MongoDbFactory mongoDbFactory() throws Exception {
-        return new SimpleMongoDbFactory(new MongoClient(), "test");
+        return new SimpleMongoDbFactory(getMongoClient(), "test");
     }
 
     public @Bean
@@ -50,6 +67,29 @@ public class ServiceConfiguration {
 
         MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
         return mongoTemplate;
+    }
+
+    private MongoClient getMongoClient() {
+        boolean useHost = (mongodbService != null && !mongodbService.isEmpty());
+        MongoClient client;
+
+        if (useHost) {
+            final int port = ssl ? 443 : 27017;
+
+            client = new MongoClient(
+                    new ServerAddress(mongodbService, port),
+                    MongoClientOptions.builder()
+                            .connectTimeout(mongodbConnectTimeout)
+                            .serverSelectionTimeout(mongodbConnectTimeout)
+                            .sslEnabled(ssl)
+                            .build());
+
+            LOGGER.info("MongoClient invoked using ["+mongodbService+"] and port ["+port+"]");
+        } else {
+            LOGGER.info("MongoClient invoked using default host and port");
+            client = new MongoClient();
+        }
+        return client;
     }
 
 }

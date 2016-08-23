@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
+import spock.lang.Ignore
 import spock.lang.Specification
 import uk.gov.digital.ho.proving.financial.ServiceRunner
 import uk.gov.digital.ho.proving.financial.domain.BalanceRecord
@@ -27,6 +28,7 @@ import java.time.LocalDate
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
 @PropertySource("classpath:application.properties")
+@Ignore
 class ServiceIntegrationSpec extends Specification{
 
     static final String TR_ONE_BALANCE = "3000"

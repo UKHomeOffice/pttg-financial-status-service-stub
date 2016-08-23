@@ -1,8 +1,10 @@
 package uk.gov.digital.ho.proving.financial.dao
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.PropertySource
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.web.WebAppConfiguration
+import spock.lang.Ignore
 import spock.lang.Specification
 import uk.gov.digital.ho.proving.financial.TestConfiguration
 import uk.gov.digital.ho.proving.financial.domain.BalanceRecord
@@ -12,6 +14,7 @@ import java.time.LocalDate
 
 @ContextConfiguration(classes = TestConfiguration.class)
 @WebAppConfiguration
+@Ignore
 class BalanceSummaryRepositorySpec extends Specification {
     static final LocalDate TRANSACTION_DATE = LocalDate.parse("2018-03-25")
     static final String SORT_CODE = "343434"

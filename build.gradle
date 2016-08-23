@@ -1,5 +1,5 @@
 group 'pttg-financial-status-service-stub'
-version '1.0-SNAPSHOT'
+version '1.0.RELEASE'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.13'
@@ -22,15 +22,29 @@ apply plugin: 'application'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-jar {
-    baseName = 'pttg-financial-status-service-stub'
-    version =  '0.1.0'
-}
-
 repositories {
     mavenCentral()
     mavenLocal()    // Pick up the domain jar locally until we have a central repo server.
     maven { url 'https://repo.spring.io/libs-milestone' }
+}
+
+if (System.getenv('VERSION')) {
+    version = System.getenv('VERSION')
+}
+if (System.getenv('BUILD_NUMBER')) {
+    version = version + '-' + System.getenv('BUILD_NUMBER')
+}
+if (System.getenv('GIT_COMMIT')) {
+    version = version + '.' + System.getenv('GIT_COMMIT')
+}
+
+tasks.withType(Jar) {
+    manifest {
+        attributes(
+                'Implementation-Title': "${jar.baseName}",
+                'Implementation-Version': version
+        )
+    }
 }
 
 
@@ -71,5 +85,6 @@ dependencies {
     testCompile 'com.jayway.jsonpath:json-path'
     testCompile 'org.mockito:mockito-all:1.10.19:'
 }
+
 
 mainClassName = "uk.gov.digital.ho.proving.financial.ServiceRunner"
