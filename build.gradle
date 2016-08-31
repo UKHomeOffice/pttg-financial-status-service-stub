@@ -19,9 +19,6 @@ apply plugin: 'groovy'
 apply plugin: 'spring-boot'
 apply plugin: 'application'
 
-jar {
-    rootSpec.exclude("developer/")
-}
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
