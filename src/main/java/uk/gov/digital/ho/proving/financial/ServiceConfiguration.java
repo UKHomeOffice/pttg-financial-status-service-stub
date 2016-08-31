@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
@@ -25,6 +26,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Configuration
+@PropertySource(value = "classpath:dsp-default.properties")
+@PropertySource(value = "classpath:/developer/developer-default.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "classpath:/developer/${user.name}-default.properties", ignoreResourceNotFound = true)
 public class ServiceConfiguration {
 
     private static Logger LOGGER = LoggerFactory.getLogger(ServiceConfiguration.class);
