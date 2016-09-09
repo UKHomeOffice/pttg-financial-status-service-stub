@@ -1,5 +1,5 @@
 group 'pttg-financial-status-service-stub'
-version '1.0.RELEASE'
+version '0.1.0'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.13'
