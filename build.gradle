@@ -87,5 +87,22 @@ dependencies {
     testCompile 'org.mockito:mockito-all:1.10.19:'
 }
 
+tasks.withType(JavaCompile) {
+
+    options.fork = true  // Fork your compilation into a child process
+    options.forkOptions.setMemoryMaximumSize("256m")
+}
+
+tasks.withType(GroovyCompile) {
+
+    options.fork = true  // Fork your compilation into a child process
+    options.forkOptions.setMemoryMaximumSize("256m")
+}
+
+test {
+    exclude 'acceptance/**'
+    maxHeapSize = "256m"
+}
+
 
 mainClassName = "uk.gov.digital.ho.proving.financial.ServiceRunner"
