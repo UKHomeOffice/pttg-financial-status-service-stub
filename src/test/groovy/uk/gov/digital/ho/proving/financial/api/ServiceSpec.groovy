@@ -22,6 +22,7 @@ class ServiceSpec extends Specification {
 
 
     public static final String MIN_BALANCE = "2000"
+    public static final String ACCOUNT_HOLDER_NAME = "Ray Purchase"
     DataService dataMock = Mock(DataService)
 
     Service service = new Service()
@@ -51,21 +52,9 @@ class ServiceSpec extends Specification {
         def jsonContent = new JsonSlurper().parseText(response.andReturn().response.getContentAsString())
         response.andExpect(status().isOk())
         jsonContent.balanceRecords[0].balance == "2000"
+        jsonContent.accountHolderName == ACCOUNT_HOLDER_NAME
     }
 
-    def "bank balance test data is persisted"() {
-        given:
-        1 * dataMock.saveTestData(createBalanceSummaryNoNameDetails())
-
-        when:
-        def json = ServiceConfiguration.newInstance().mapper.writeValueAsString(createBalanceSummaryNoNameDetails().getBalanceRecords())
-        def response = mockMvc.perform(post(PATH_ACCOUNT, SORT_CODE, ACCOUNT_NUMBER).contentType(MediaType.APPLICATION_JSON)
-                .content(json))
-
-
-        then:
-        response.andExpect(status().isOk())
-    }
 
     def "bank summary test data is persisted  (includes account data in request body)"() {
         given:
@@ -119,11 +108,11 @@ class ServiceSpec extends Specification {
 
     def "error writing to database"() {
         given:
-        1 * dataMock.saveTestData(createBalanceSummaryNoNameDetails()) >> { throw new MongoException("a message") }
+        1 * dataMock.saveTestData(createBalanceSummary()) >> { throw new MongoException("a message") }
 
         when:
-        def json = ServiceConfiguration.newInstance().mapper.writeValueAsString(createBalanceSummaryNoNameDetails().getBalanceRecords())
-        def response = mockMvc.perform(post(PATH_ACCOUNT, SORT_CODE, ACCOUNT_NUMBER).contentType(MediaType.APPLICATION_JSON)
+        def json = ServiceConfiguration.newInstance().mapper.writeValueAsString(createBalanceSummary())
+        def response = mockMvc.perform(post(PATH).contentType(MediaType.APPLICATION_JSON)
                 .content(json))
 
         then:
@@ -132,12 +121,12 @@ class ServiceSpec extends Specification {
 
     def "reject invalid test data - bad request"() {
         given:
-        0 * dataMock.saveTestData(createBalanceSummaryNoNameDetails())
+        0 * dataMock.saveTestData(createBalanceSummary())
 
         when:
-        def invalidjson = "some rubbish at the top" + ServiceConfiguration.newInstance().mapper.writeValueAsString(createBalanceSummaryNoNameDetails().getBalanceRecords())
+        def invalidjson = "some rubbish at the top" + ServiceConfiguration.newInstance().mapper.writeValueAsString(createBalanceSummary())
 
-        def response = mockMvc.perform(post(PATH_ACCOUNT, SORT_CODE, ACCOUNT_NUMBER).contentType(MediaType.APPLICATION_JSON)
+        def response = mockMvc.perform(post(PATH).contentType(MediaType.APPLICATION_JSON)
                 .content(invalidjson))
 
         then:
@@ -145,13 +134,7 @@ class ServiceSpec extends Specification {
     }
 
     private static BalanceSummary createBalanceSummary() {
-        BalanceSummary balanceSummary = new BalanceSummary("Jane", "Brown", SORT_CODE, ACCOUNT_NUMBER)
-        balanceSummary.setBalanceRecords([new BalanceRecord(TR_DATE, MIN_BALANCE)])
-        balanceSummary
-    }
-
-    private static BalanceSummary createBalanceSummaryNoNameDetails() {
-        BalanceSummary balanceSummary = new BalanceSummary(SORT_CODE, ACCOUNT_NUMBER)
+        BalanceSummary balanceSummary = new BalanceSummary(ACCOUNT_HOLDER_NAME, SORT_CODE, ACCOUNT_NUMBER)
         balanceSummary.setBalanceRecords([new BalanceRecord(TR_DATE, MIN_BALANCE)])
         balanceSummary
     }

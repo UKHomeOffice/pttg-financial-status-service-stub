@@ -12,8 +12,7 @@ public class BalanceSummary {
     @Id
     private String id;
 
-    private String firstName;
-    private String surname;
+    private String accountHolderName;
     @NotNull
     private String sortCode;
     @NotNull
@@ -24,14 +23,16 @@ public class BalanceSummary {
     public BalanceSummary() {
     }
 
-    public BalanceSummary(String firstName, String surname, String sortCode, String accountNumber) {
-        this.firstName = firstName;
-        this.surname = surname;
-        this.sortCode = sortCode;
-        this.accountNumber = accountNumber;
+    public String getAccountHolderName() {
+        return accountHolderName;
     }
 
-    public BalanceSummary(String sortCode, String accountNumber) {
+    public void setAccountHolderName(String accountHolderName) {
+        this.accountHolderName = accountHolderName;
+    }
+
+    public BalanceSummary(String accountHolderName, String sortCode, String accountNumber) {
+        this.accountHolderName = accountHolderName;
         this.sortCode = sortCode;
         this.accountNumber = accountNumber;
     }
@@ -42,22 +43,6 @@ public class BalanceSummary {
 
     public void setBalanceRecords(List<BalanceRecord> balanceRecords) {
         this.balanceRecords = balanceRecords;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public String getSortCode() {
@@ -77,39 +62,26 @@ public class BalanceSummary {
     }
 
     @Override
-    public String toString() {
-        return "BalanceSummary{" +
-                "firstName='" + firstName + '\'' +
-                ", surname='" + surname + '\'' +
-                ", sortCode='" + sortCode + '\'' +
-                ", accountNumber='" + accountNumber + '\'' +
-                ", balanceRecords=" + balanceRecords +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BalanceSummary)) return false;
 
-        BalanceSummary balanceSummary = (BalanceSummary) o;
+        BalanceSummary that = (BalanceSummary) o;
 
-        if (id != null && balanceSummary.id!=null? !id.equals(balanceSummary.id) : balanceSummary.id != null) return false;
-        if (firstName != null ? !firstName.equals(balanceSummary.firstName) : balanceSummary.firstName != null) return false;
-        if (surname != null ? !surname.equals(balanceSummary.surname) : balanceSummary.surname != null) return false;
-        if (!sortCode.equals(balanceSummary.sortCode)) return false;
-        if (!accountNumber.equals(balanceSummary.accountNumber)) return false;
-        return balanceRecords != null ? balanceRecords.equals(balanceSummary.balanceRecords) : balanceSummary.balanceRecords == null;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (!accountHolderName.equals(that.accountHolderName)) return false;
+        if (!sortCode.equals(that.sortCode)) return false;
+        if (!accountNumber.equals(that.accountNumber)) return false;
+        return balanceRecords != null ? balanceRecords.equals(that.balanceRecords) : that.balanceRecords == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (surname != null ? surname.hashCode() : 0);
-        result = 31 * result + (sortCode != null ? sortCode.hashCode() : 0);
-        result = 31 * result + (accountNumber != null ? accountNumber.hashCode() : 0);
+        result = 31 * result + accountHolderName.hashCode();
+        result = 31 * result + sortCode.hashCode();
+        result = 31 * result + accountNumber.hashCode();
         result = 31 * result + (balanceRecords != null ? balanceRecords.hashCode() : 0);
         return result;
     }

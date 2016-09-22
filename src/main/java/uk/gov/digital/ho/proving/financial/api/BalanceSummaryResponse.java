@@ -5,13 +5,19 @@ import uk.gov.digital.ho.proving.financial.domain.BalanceRecord;
 import java.util.List;
 
 /*container for daily balances for a given account*/
-public class BalanceRecordResponse extends BaseResponse {
+public class BalanceSummaryResponse extends BaseResponse {
 
+    private String accountHolderName;
     private List<BalanceRecord> balanceRecords;
 
 
-    public BalanceRecordResponse() {
+    public BalanceSummaryResponse(String accountHolderName) {
+        this.accountHolderName = accountHolderName;
     }
+
+    public BalanceSummaryResponse() {
+    }
+
 
     public List<BalanceRecord> getBalanceRecords() {
         return balanceRecords;
@@ -19,5 +25,9 @@ public class BalanceRecordResponse extends BaseResponse {
 
     public void setBalanceRecords(List<BalanceRecord> balanceRecords) {
         this.balanceRecords = balanceRecords;
+    }
+
+    public String getAccountHolderName() {
+        return accountHolderName;
     }
 }

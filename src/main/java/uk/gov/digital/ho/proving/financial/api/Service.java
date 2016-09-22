@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uk.gov.digital.ho.proving.financial.domain.BalanceRecord;
 import uk.gov.digital.ho.proving.financial.exception.AccountNotFoundException;
 import uk.gov.digital.ho.proving.financial.domain.BalanceSummary;
 
@@ -22,13 +21,18 @@ import static uk.gov.digital.ho.proving.financial.util.DateUtils.parseIsoDate;
 @ControllerAdvice
 public class Service {
 
+    public static final String BANKCODE_5 = "bankcode 5";
+    public static final String BANKCODE_1 = "bankcode 1";
+    public static final String BANKCODE_2 = "bankcode 2";
+    public static final String BANKCODE_3 = "bankcode 3";
+    public static final String BANKCODE_4 = "bankcode 4";
     private static Logger LOGGER = LoggerFactory.getLogger(Service.class);
 
     @Autowired
     private DataService dataService;
 
     @RequestMapping(value = "/financialstatus/v1/{sortcode}/{account}/balances", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<BalanceRecordResponse> getBalanceRecordsForDateRange(
+    public ResponseEntity<BalanceSummaryResponse> getBalanceRecordsForDateRange(
             @PathVariable(value = "account") String account,
             @PathVariable(value = "sortcode") String sortcode,
             @RequestParam(value = "fromDate") String fromDateAsString,
@@ -40,12 +44,12 @@ public class Service {
 
             Optional<LocalDate> fromDate = parseIsoDate(fromDateAsString);
             if (!fromDate.isPresent()) {
-                return buildErrorResponse(new BalanceRecordResponse(), "bankcode 1", "Parameter error: From date is invalid", HttpStatus.BAD_REQUEST);
+                return buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_1, "Parameter error: From date is invalid", HttpStatus.BAD_REQUEST);
             }
 
             Optional<LocalDate> toDate = parseIsoDate(toDateAsString);
             if (!toDate.isPresent()) {
-                return buildErrorResponse(new BalanceRecordResponse(), "bankcode 2", "Parameter error: To date is invalid", HttpStatus.BAD_REQUEST);
+                return buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_2, "Parameter error: To date is invalid", HttpStatus.BAD_REQUEST);
             }
 
             //flat map - removes the nested optional (if it exists), map uses value if exists or returns optional with absent - so lookup not called
@@ -56,17 +60,17 @@ public class Service {
             );
 
             return statement.map(ips -> {
-                        BalanceRecordResponse incomeRetrievalResponse = new BalanceRecordResponse();
+                        BalanceSummaryResponse incomeRetrievalResponse = new BalanceSummaryResponse(ips.getAccountHolderName());
                         incomeRetrievalResponse.setBalanceRecords(ips.getBalanceRecords());
                         return new ResponseEntity<>(incomeRetrievalResponse, HttpStatus.OK);
                     }
-            ).orElse(buildErrorResponse(new BalanceRecordResponse(), "bankcode 3", "Error retrieving test data", HttpStatus.NOT_FOUND));
+            ).orElse(buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_3, "Error retrieving test data", HttpStatus.NOT_FOUND));
 
         } catch (AccountNotFoundException e) {
-            return buildErrorResponse(new BalanceRecordResponse(), "bankcode 4", "Resource not found", HttpStatus.NOT_FOUND);
+            return buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_4, "Resource not found", HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {
             LOGGER.error("Error retrieving test data", e);
-            return buildErrorResponse(new BalanceRecordResponse(), "bankcode 5", e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_5, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -81,41 +85,22 @@ public class Service {
             dataService.saveTestData(testData);
         } catch (RuntimeException e) {
             LOGGER.error("Error persisting test data", e);
-            return buildErrorResponse(new BalanceRecordResponse(), "bankcode 5", "Error persisting testData test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_5, "Error persisting testData test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return ResponseEntity.ok().build();
     }
 
-
-    /*persist balance records for given account  - throws FinancialStatusStubException if account already exists*/
-    @RequestMapping(value = "/financialstatus/v1/{sortcode}/{account}/balances", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> createTestDataBalances(@PathVariable(value = "account") String account,
-                                                    @PathVariable(value = "sortcode") String sortcode,
-                                                    @RequestBody @Valid List<BalanceRecord> testData) {
-
-        LOGGER.info(String.format("Financial Status Service STUB invoked for testdata %s", testData));
-
-        try {
-            BalanceSummary balanceSummary = new BalanceSummary(sortcode, account);
-            balanceSummary.setBalanceRecords(testData);
-            dataService.saveTestData(balanceSummary);
-        } catch (RuntimeException e) {
-            LOGGER.error("Error persisting test data", e);
-            return buildErrorResponse(new BalanceRecordResponse(), "bankcode 5", "Error persisting testData test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return ResponseEntity.ok().build();
-    }
 
     @RequestMapping(value = "/financialstatus/v1/accounts", method = RequestMethod.DELETE, produces = "application/json")
-    public ResponseEntity<BalanceRecordResponse> deleteTestData() {
+    public ResponseEntity<BalanceSummaryResponse> deleteTestData() {
 
         try {
             dataService.initialiseTestData();
-            return new ResponseEntity<>(new BalanceRecordResponse(), HttpStatus.OK);
+            return new ResponseEntity<>(new BalanceSummaryResponse(), HttpStatus.OK);
 
         } catch (Exception e) {
             LOGGER.error("Error deleting test data", e);
-            return buildErrorResponse(new BalanceRecordResponse(), "bankcode 5", "Error deleting test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_5, "Error deleting test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -130,7 +115,7 @@ public class Service {
 
         } catch (RuntimeException e) {
             LOGGER.error("Error retrieving test data", e);
-            return buildErrorResponse(new BalanceSummariesResponse(), "bankcode 5", "Error retrieving test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return buildErrorResponse(new BalanceSummariesResponse(), BANKCODE_5, "Error retrieving test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

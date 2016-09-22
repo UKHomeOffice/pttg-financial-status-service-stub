@@ -1,6 +1,5 @@
 {
-  "firstName": "First",
-  "surname": "Last",
+  "accountHolderName": "Ray Purchase",
   "sortCode": "010616",
   "accountNumber": "00020000",
   "balanceRecords": [
