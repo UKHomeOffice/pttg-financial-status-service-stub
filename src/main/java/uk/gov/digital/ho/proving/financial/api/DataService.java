@@ -1,12 +1,14 @@
 package uk.gov.digital.ho.proving.financial.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.MongoCommandException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.dao.DuplicateKeyException;
 import uk.gov.digital.ho.proving.financial.dao.BalanceSummaryRepository;
 import uk.gov.digital.ho.proving.financial.domain.BalanceSummary;
 import uk.gov.digital.ho.proving.financial.exception.AccountNotFoundException;
@@ -75,17 +77,23 @@ public class DataService {
         repository.deleteAll();
         Resource[] mappingLocations = patternResolver.getResources("classpath*:demoData*.json");
 
-        for (Resource mappingLocation : mappingLocations) {
-            BalanceSummary testDataBalanceSummary = null;
-            try {
-                testDataBalanceSummary = mapper.readValue(mappingLocation.getURL(), BalanceSummary.class);
-            } catch (IOException e) {
-                LOGGER.error("Error loading json from classpath: " + e);
+        try {
+
+            for (Resource mappingLocation : mappingLocations) {
+                BalanceSummary testDataBalanceSummary = null;
+                try {
+                    testDataBalanceSummary = mapper.readValue(mappingLocation.getURL(), BalanceSummary.class);
+                } catch (IOException e) {
+                    LOGGER.error("Error loading json from classpath: " + e);
+                }
+
+                LOGGER.debug("Adding document from: " + mappingLocation.getURI());
+
+                repository.insert(testDataBalanceSummary);
             }
 
-            LOGGER.debug("Adding document from: " + mappingLocation.getURI());
-
-            repository.insert(testDataBalanceSummary);
+        } catch (DuplicateKeyException me) {
+            LOGGER.info("Error received inserting test data, non-unique key, insert aborted:", me);
         }
 
     }

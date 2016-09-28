@@ -1,7 +1,12 @@
-package uk.gov.digital.ho.proving.financial.api;
+package uk.gov.digital.ho.proving.financial.api
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.mongodb.MongoCommandException
+import com.mongodb.ServerAddress
+import org.bson.BsonDocument;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.Test
+import org.springframework.dao.DuplicateKeyException;
 import spock.lang.Specification
 import uk.gov.digital.ho.proving.financial.ServiceConfiguration;
 import uk.gov.digital.ho.proving.financial.dao.BalanceSummaryRepository
@@ -30,6 +35,7 @@ public class DataServiceSpec extends Specification{
     DataService service = new DataService()
 
     def setup() throws Exception {
+        service.mapper = new ObjectMapper()
         service.repository = repo
     }
 
@@ -53,6 +59,18 @@ public class DataServiceSpec extends Specification{
 
         then:
         balanceSummary.balanceRecords.size() == 3
+    }
+
+    def "data insert should enforce uniqueness on sortcode and account number, confirm exception handled gracefully"() {
+        given:
+        repo.insert(_) >> {throw new DuplicateKeyException("")}
+        service.mapper.readValue(_,_) >> {createBalanceSummary()}
+
+        when:
+        service.initialiseTestData()
+
+        then:
+        noExceptionThrown()
     }
 
     private static List<BalanceSummary> createBalanceSummary() {

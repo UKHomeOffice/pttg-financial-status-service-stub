@@ -63,6 +63,8 @@ public class ServiceConfiguration {
     MongoTemplate mongoTemplate() throws Exception {
 
         MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
+        //required as unique compound indexes have to be removed and recreated
+        mongoTemplate.getDb().dropDatabase();
         return mongoTemplate;
     }
 
