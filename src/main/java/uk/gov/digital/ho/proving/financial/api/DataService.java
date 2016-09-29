@@ -77,24 +77,23 @@ public class DataService {
         repository.deleteAll();
         Resource[] mappingLocations = patternResolver.getResources("classpath*:demoData*.json");
 
-        try {
 
-            for (Resource mappingLocation : mappingLocations) {
-                BalanceSummary testDataBalanceSummary = null;
-                try {
-                    testDataBalanceSummary = mapper.readValue(mappingLocation.getURL(), BalanceSummary.class);
-                } catch (IOException e) {
-                    LOGGER.error("Error loading json from classpath: " + e);
-                }
-
-                LOGGER.debug("Adding document from: " + mappingLocation.getURI());
-
-                repository.insert(testDataBalanceSummary);
+        for (Resource mappingLocation : mappingLocations) {
+            BalanceSummary testDataBalanceSummary = null;
+            try {
+                testDataBalanceSummary = mapper.readValue(mappingLocation.getURL(), BalanceSummary.class);
+            } catch (IOException e) {
+                LOGGER.error("Error loading json from classpath: " + e);
             }
 
-        } catch (DuplicateKeyException me) {
-            LOGGER.info("Error received inserting test data, non-unique key, insert aborted:", me);
+            LOGGER.debug("Adding document from: " + mappingLocation.getURI());
+            try {
+                repository.insert(testDataBalanceSummary);
+            } catch (DuplicateKeyException me) {
+                LOGGER.info("Error received inserting test data, non-unique key: {} {}, insert aborted:",testDataBalanceSummary.getSortCode(), testDataBalanceSummary.getAccountNumber(), me);
+            }
         }
+
 
     }
 

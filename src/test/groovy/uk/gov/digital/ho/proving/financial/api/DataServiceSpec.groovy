@@ -1,25 +1,13 @@
 package uk.gov.digital.ho.proving.financial.api
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.mongodb.MongoCommandException
-import com.mongodb.ServerAddress
-import org.bson.BsonDocument;
-import org.junit.Before;
-import org.junit.Test
 import org.springframework.dao.DuplicateKeyException;
 import spock.lang.Specification
-import uk.gov.digital.ho.proving.financial.ServiceConfiguration;
 import uk.gov.digital.ho.proving.financial.dao.BalanceSummaryRepository
 import uk.gov.digital.ho.proving.financial.domain.BalanceRecord
 import uk.gov.digital.ho.proving.financial.domain.BalanceSummary
 
-import java.nio.charset.Charset
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.time.LocalDate;
-
-import static org.junit.Assert.*;
-
+import java.time.LocalDate
 
 public class DataServiceSpec extends Specification{
     static final String SORT_CODE = "123456"
@@ -35,13 +23,13 @@ public class DataServiceSpec extends Specification{
     DataService service = new DataService()
 
     def setup() throws Exception {
-        service.mapper = new ObjectMapper()
+        service.mapper = Mock(ObjectMapper.class)
         service.repository = repo
     }
 
     def "data filtering should exclude dates outside the range"() {
         given:
-        1 * repo.findByAccountNumberAndSortCode(ACCOUNT_NUMBER, SORT_CODE) >> {createBalanceSummary()}
+        1 * repo.findByAccountNumberAndSortCode(ACCOUNT_NUMBER, SORT_CODE) >> {createBalanceSummaryList()}
 
         when:
         def balanceSummary = service.getStatement(SORT_CODE, ACCOUNT_NUMBER, TR_DATE_25_MARCH, TR_DATE_27_MARCH)
@@ -52,7 +40,7 @@ public class DataServiceSpec extends Specification{
 
     def "data filtering should include records on the to and from dates"() {
         given:
-        1 * repo.findByAccountNumberAndSortCode(ACCOUNT_NUMBER, SORT_CODE) >> {createBalanceSummary()}
+        1 * repo.findByAccountNumberAndSortCode(ACCOUNT_NUMBER, SORT_CODE) >> {createBalanceSummaryList()}
 
         when:
         def balanceSummary = service.getStatement(SORT_CODE, ACCOUNT_NUMBER, TR_DATE_25_MARCH, TR_DATE_28_MARCH)
@@ -61,7 +49,7 @@ public class DataServiceSpec extends Specification{
         balanceSummary.balanceRecords.size() == 3
     }
 
-    def "data insert should enforce uniqueness on sortcode and account number, confirm exception handled gracefully"() {
+    def "data insert should enforce uniqueness on sortcode and account number, confirm exception handled gracefully and insert continues after failure"() {
         given:
         repo.insert(_) >> {throw new DuplicateKeyException("")}
         service.mapper.readValue(_,_) >> {createBalanceSummary()}
@@ -71,12 +59,17 @@ public class DataServiceSpec extends Specification{
 
         then:
         noExceptionThrown()
+        (2.._) * repo.insert(_)
     }
 
-    private static List<BalanceSummary> createBalanceSummary() {
+    private static List<BalanceSummary> createBalanceSummaryList() {
+        [createBalanceSummary()]
+    }
+
+    private static BalanceSummary createBalanceSummary() {
         BalanceSummary balanceSummary = new BalanceSummary(ACCOUNT_HOLDER_NAME, SORT_CODE, ACCOUNT_NUMBER)
         balanceSummary.setBalanceRecords([new BalanceRecord(TR_DATE_21_MARCH, "2000"), new BalanceRecord(TR_DATE_25_MARCH, "2000"), new BalanceRecord(TR_DATE_27_MARCH, "2000"), new BalanceRecord(TR_DATE_28_MARCH, "2000")])
-        [balanceSummary]
+        balanceSummary
     }
 
 
