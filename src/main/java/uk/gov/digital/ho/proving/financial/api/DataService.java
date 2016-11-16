@@ -1,7 +1,6 @@
 package uk.gov.digital.ho.proving.financial.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.MongoCommandException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,12 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.dao.DuplicateKeyException;
+import uk.gov.digital.ho.proving.financial.dao.ApplicationRepository;
 import uk.gov.digital.ho.proving.financial.dao.BalanceSummaryRepository;
+import uk.gov.digital.ho.proving.financial.dao.ApplicantRepository;
+import uk.gov.digital.ho.proving.financial.domain.Applications;
 import uk.gov.digital.ho.proving.financial.domain.BalanceSummary;
+import uk.gov.digital.ho.proving.financial.domain.Applicants;
 import uk.gov.digital.ho.proving.financial.exception.AccountNotFoundException;
 import uk.gov.digital.ho.proving.financial.exception.FinancialStatusStubException;
 import uk.gov.digital.ho.proving.financial.exception.MongoException;
@@ -30,6 +33,13 @@ public class DataService {
 
     @Autowired
     private BalanceSummaryRepository repository;
+
+    @Autowired
+    private ApplicantRepository applicantRepository;
+
+    @Autowired
+    private ApplicationRepository applicationRepository;
+
 
     private static Logger LOGGER = LoggerFactory.getLogger(DataService.class);
 
@@ -73,10 +83,62 @@ public class DataService {
     }
 
     public void initialiseTestData() throws IOException {
+
+        initialiseBankTestData();
+        initialiseApplicationTestData();
+        initialiseApplicantTestData();
+    }
+
+    private void initialiseApplicationTestData()  throws IOException{
+        ResourcePatternResolver patternResolver = new PathMatchingResourcePatternResolver();
+        applicationRepository.deleteAll();
+        Resource[] mappingLocations = patternResolver.getResources("classpath*:application*.json");
+
+        for (Resource mappingLocation : mappingLocations) {
+            Applications testApplications = null;
+            try {
+                testApplications = mapper.readValue(mappingLocation.getURL(), Applications.class);
+            } catch (IOException e) {
+                LOGGER.error("Error loading json from classpath: " + e);
+            }
+
+            LOGGER.debug("Adding document from: " + mappingLocation.getURI());
+            try {
+                applicationRepository.insert(testApplications);
+            } catch (DuplicateKeyException me) {
+                LOGGER.info("Error received inserting test data, non-unique key: {} , insert aborted:", testApplications.getIndividual().getNino(), me);
+            }
+        }
+
+    }
+
+    private void initialiseApplicantTestData()  throws IOException{
+        ResourcePatternResolver patternResolver = new PathMatchingResourcePatternResolver();
+        applicantRepository.deleteAll();
+        Resource[] mappingLocations = patternResolver.getResources("classpath*:applicant*.json");
+
+        for (Resource mappingLocation : mappingLocations) {
+            Applicants testApplicants = null;
+            try {
+                testApplicants = mapper.readValue(mappingLocation.getURL(), Applicants.class);
+            } catch (IOException e) {
+                LOGGER.error("Error loading json from classpath: " + e);
+            }
+
+            LOGGER.debug("Adding document from: " + mappingLocation.getURI());
+            try {
+                applicantRepository.insert(testApplicants);
+            } catch (DuplicateKeyException me) {
+                LOGGER.info("Error received inserting test data, non-unique key: {} , insert aborted:", testApplicants.getIndividual().getNino(), me);
+            }
+        }
+
+    }
+
+    private void initialiseBankTestData()  throws IOException{
         ResourcePatternResolver patternResolver = new PathMatchingResourcePatternResolver();
         repository.deleteAll();
         Resource[] mappingLocations = patternResolver.getResources("classpath*:demoData*.json");
-
 
         for (Resource mappingLocation : mappingLocations) {
             BalanceSummary testDataBalanceSummary = null;

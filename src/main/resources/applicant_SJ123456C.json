@@ -1,0 +1,55 @@
+{
+  "individual" : {
+    "forename" : "Scarlett",
+    "surname" : "Jones",
+    "nino" : "SJ123456C"
+  },
+  "payFreq": "M1",
+  "incomes" : [
+    {
+      "payDate" : "2015-12-02",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2266.67"
+    },
+    {
+      "payDate" : "2015-11-02",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2266.67"
+    },
+    {
+      "payDate" : "2015-10-02",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2266.68"
+    },
+    {
+      "payDate" : "2015-09-02",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2267.00"
+    },
+    {
+      "payDate" : "2015-08-02",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2268.00"
+    },
+    {
+      "payDate" : "2015-07-02",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2270.00"
+    },
+    {
+      "payDate" : "2015-06-02",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2266.69"
+    },
+    {
+      "payDate" : "2015-05-02",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2600.00"
+    },
+    {
+      "payDate" : "2015-04-02",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1600.00"
+    }
+  ]
+}

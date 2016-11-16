@@ -1,0 +1,50 @@
+{
+  "individual" : {
+    "forename" : "Tony",
+    "surname" : "Ledo",
+    "nino" : "TL123456A"
+  },
+  "payFreq": "M1",
+  "incomes" : [
+    {
+      "payDate" : "2015-01-15",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "4600.00"
+    },
+    {
+      "payDate" : "2014-12-17",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "4168.00"
+    },
+    {
+      "payDate" : "2014-11-15",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "4200.00"
+    },
+    {
+      "payDate" : "2014-10-15",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "4166.68"
+    },
+    {
+      "payDate" : "2014-09-15",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "4190.00"
+    },
+    {
+      "payDate" : "2014-08-15",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "4300.00"
+    },
+    {
+      "payDate" : "2014-07-15",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "4200.00"
+    },
+    {
+      "payDate" : "2014-06-15",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "4200.00"
+    }
+  ]
+}

@@ -3,9 +3,15 @@ package uk.gov.digital.ho.proving.financial.api
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.dao.DuplicateKeyException;
 import spock.lang.Specification
+import uk.gov.digital.ho.proving.financial.dao.ApplicantRepository
+import uk.gov.digital.ho.proving.financial.dao.ApplicationRepository
 import uk.gov.digital.ho.proving.financial.dao.BalanceSummaryRepository
+import uk.gov.digital.ho.proving.financial.domain.Applicants
+import uk.gov.digital.ho.proving.financial.domain.Applications
 import uk.gov.digital.ho.proving.financial.domain.BalanceRecord
 import uk.gov.digital.ho.proving.financial.domain.BalanceSummary
+import uk.gov.digital.ho.proving.financial.domain.Income
+import uk.gov.digital.ho.proving.financial.domain.Individual
 
 import java.time.LocalDate
 
@@ -20,11 +26,17 @@ public class DataServiceSpec extends Specification{
 
 
     BalanceSummaryRepository repo = Mock(BalanceSummaryRepository.class)
+    ApplicantRepository applicantRepository = Mock(ApplicantRepository.class)
+    ApplicationRepository applicationRepository = Mock(ApplicationRepository.class)
+
     DataService service = new DataService()
 
     def setup() throws Exception {
         service.mapper = Mock(ObjectMapper.class)
         service.repository = repo
+        service.applicationRepository = applicationRepository
+        service.applicantRepository = applicantRepository
+
     }
 
     def "data filtering should exclude dates outside the range"() {
@@ -52,7 +64,9 @@ public class DataServiceSpec extends Specification{
     def "data insert should enforce uniqueness on sortcode and account number, confirm exception handled gracefully and insert continues after failure"() {
         given:
         repo.insert(_) >> {throw new DuplicateKeyException("")}
-        service.mapper.readValue(_,_) >> {createBalanceSummary()}
+        service.mapper.readValue(_,BalanceSummary.class) >> {createBalanceSummary()}
+        service.mapper.readValue(_,Applicants.class) >> {createApplicants()}
+        service.mapper.readValue(_,Applications.class) >> {createApplications()}
 
         when:
         service.initialiseTestData()
@@ -72,5 +86,18 @@ public class DataServiceSpec extends Specification{
         balanceSummary
     }
 
+    private static Applicants createApplicants() {
+        Income income = new Income("2016-01-01", "1000.00", "Flying Pizza Ltd")
+        Individual individual = new Individual("Mr", "Fred", "Flintstone","AA123456A")
+        Applicants applicants = new Applicants("0",individual,"M1", ACCOUNT_NUMBER, [income, income] )
+        applicants
+    }
+
+    private static Applications createApplications() {
+//        Income income = new Income("2016-01-01", "1000.00", "Flying Pizza Ltd")
+        Individual individual = new Individual("Mr", "Fred", "Flintstone","AA123456A")
+        Applications applications = new Applications(individual)
+        applications
+    }
 
 }

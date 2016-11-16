@@ -1,0 +1,41 @@
+{
+  "individual" : {
+    "forename" : "Steve",
+    "surname" : "Yu",
+    "nino" : "SY987654C"
+  },
+  "payFreq": "M1",
+  "incomes" : [
+    {
+      "payDate" : "2015-08-03",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2600.00"
+    },
+    {
+      "payDate" : "2015-07-03",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2600.00"
+    },
+    {
+      "payDate" : "2015-06-03",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2600.00"
+    },
+    {
+      "payDate" : "2015-05-03",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2600.00"
+    },
+    {
+      "payDate" : "2015-04-03",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2600.00"
+    },
+    {
+      "payDate" : "2015-03-03",
+      "employer" : "Flying ",
+      "income" : "2600.00"
+    }
+
+  ]
+}

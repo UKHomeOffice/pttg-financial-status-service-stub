@@ -1,0 +1,45 @@
+{
+  "individual" : {
+    "forename" : "Jon",
+    "surname" : "Taylor",
+    "nino" : "CC123456C"
+  },
+  "payFreq": "M1",
+  "incomes" : [
+    {
+      "payDate" : "2015-01-23",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1551.00"
+    },
+    {
+      "payDate" : "2014-12-23",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1551.00"
+    },
+    {
+      "payDate" : "2014-11-23",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1551.00"
+    },
+    {
+      "payDate" : "2014-10-23",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1551.00"
+    },
+    {
+      "payDate" : "2014-09-23",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1551.00"
+    },
+    {
+      "payDate" : "2014-08-23",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1551.00"
+    },
+    {
+      "payDate" : "2014-07-23",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1551.00"
+    }
+  ]
+}
