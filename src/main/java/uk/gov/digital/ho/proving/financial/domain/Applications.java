@@ -1,11 +1,16 @@
 package uk.gov.digital.ho.proving.financial.domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 
 @Document
+@CompoundIndexes({
+        @CompoundIndex(name = "acc_idx", unique = true, def = "{'individual.nino' : 1}")
+})
 public class Applications {
 
     @Id
