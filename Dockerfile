@@ -7,6 +7,7 @@ ENV USER pttg
 ENV GROUP pttg
 ENV NAME pttg-fs-stub
 
+ARG JAR_PATH
 ARG VERSION
 
 WORKDIR /app
