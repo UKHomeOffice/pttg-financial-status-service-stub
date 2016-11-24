@@ -17,7 +17,7 @@ pipeline:
     environment:
       - DOCKER_HOST=tcp://127.0.0.1:2375
     commands:
-      - docker build -t quay.io/ukhomeofficedigital/pttg-fs-stub:${DRONE_COMMIT_SHA} -f Dockerfile.drone
+      - docker build -t quay.io/ukhomeofficedigital/pttg-fs-stub:${DRONE_COMMIT_SHA} -f Dockerfile.drone .
     when:
       event: push
 
