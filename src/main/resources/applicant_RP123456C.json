@@ -1,0 +1,145 @@
+{
+  "individual" : {
+    "forename" : "Raj",
+    "surname" : "Patel",
+    "nino" : "RP123456C"
+  },
+  "payFreq" : "W1",
+  "incomes" : [
+    {
+      "payDate" : "2015-07-03",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-06-26",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2016-06-19",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-06-12",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-06-05",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-05-29",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-05-22",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-05-15",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-05-08",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-05-01",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-04-24",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-04-17",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-04-10",
+      "employer" : "Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-04-3",
+      "employer" : "Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-03-26",
+      "employer" : "Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-03-19",
+      "employer" : "Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-03-12",
+      "employer" : "Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-03-5",
+      "employer" : "Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-03-26",
+      "employer" : "Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-02-19",
+      "employer" : "Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-02-12",
+      "employer" : "Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-02-5",
+      "employer" : "Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-01-29",
+      "employer" : "Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-01-22",
+      "employer" : "Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-01-15",
+      "employer" : "Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-01-8",
+      "employer" : "Pizza Ltd",
+      "income" : "600"
+    },
+    {
+      "payDate" : "2015-01-1",
+      "employer" : "Pizza Ltd",
+      "income" : "600"
+    }
+  ]
+}

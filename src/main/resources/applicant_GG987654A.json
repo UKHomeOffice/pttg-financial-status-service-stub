@@ -1,0 +1,110 @@
+{
+  "individual" : {
+    "forename" : "Gary",
+    "surname" : "Goldstein",
+    "nino" : "GG987654A"
+  },
+  "payFreq" : "W1",
+  "incomes" : [
+    {
+      "payDate" : "2015-09-03",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-08-27",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-08-20",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-08-13",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-08-06",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-07-30",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-07-23",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-07-16",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "225.40"
+    },
+    {
+      "payDate" : "2015-07-09",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-07-02",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-06-25",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-06-18",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-06-11",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" :"2015-06-04",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-05-28",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-05-21",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-05-14",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-05-07",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-04-30",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    },
+    {
+      "payDate" : "2015-04-23",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "516.67"
+    }
+  ]
+}

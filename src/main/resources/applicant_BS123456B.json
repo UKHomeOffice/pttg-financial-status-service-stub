@@ -1,0 +1,50 @@
+{
+  "individual" : {
+    "forename" : "Brian",
+    "surname" : "Sinclair",
+    "nino" : "BS123456B"
+  },
+  "payFreq": "M1",
+  "incomes" : [
+    {
+      "payDate" : "2015-01-15",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2066.66"
+    },
+    {
+      "payDate" : "2014-12-17",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2066.70"
+    },
+    {
+      "payDate" : "2014-11-15",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2066.67"
+    },
+    {
+      "payDate" : "2014-10-15",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2066.80"
+    },
+    {
+      "payDate" : "2014-09-15",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2066.67"
+    },
+    {
+      "payDate" : "2014-08-15",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2490.00"
+    },
+    {
+      "payDate" : "2014-07-15",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1112700.00"
+    },
+    {
+      "payDate" : "2014-06-15",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1600.00"
+    }
+  ]
+}

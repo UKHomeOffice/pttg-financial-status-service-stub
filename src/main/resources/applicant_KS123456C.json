@@ -1,0 +1,26 @@
+{
+  "individual" : {
+    "forename" : "Kumar Sangakkara",
+    "surname" : "Dilshan",
+    "nino" : "KS123456C"
+  },
+  "payFreq": "M1",
+  "incomes" : [
+    {
+      "payDate" : "2015-07-03",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1600.00"
+    },
+    {
+      "payDate" : "2015-06-03",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1600.00"
+    },
+    {
+      "payDate" : "2015-05-03",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1600.00"
+    }
+
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "individual" : {
+    "title" : "Mr",
+    "forename" : "Harry",
+    "surname" : "Callahan",
+    "nino" : "QQ023987A"
+  },
+  "incomes" : [
+    {
+      "payDate" : "2015-01-10",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2000.00"
+    },
+    {
+      "payDate" : "2015-01-17",
+      "employer" : "Halifax PLC",
+      "income" : "1000.00"
+    },
+    {
+      "payDate" : "2015-02-01",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1666.00"
+    },
+    {
+      "payDate" : "2015-02-10",
+      "employer" : "Halifax PLC",
+      "income" : "2000.00"
+    },
+    {
+      "payDate" : "2015-03-01",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1666.00"
+    },
+    {
+      "payDate" : "2015-03-10",
+      "employer" : "Halifax PLC",
+      "income" : "2000.00"
+    },
+    {
+      "payDate" : "2015-04-01",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1666.00"
+    },
+    {
+      "payDate" : "2015-04-10",
+      "employer" : "Halifax PLC",
+      "income" : "2000.00"
+    },
+    {
+      "payDate" : "2015-05-10",
+      "employer" : "Halifax PLC",
+      "income" : "2000.00"
+    },
+    {
+      "payDate" : "2015-06-10",
+      "employer" : "Halifax PLC",
+      "income" : "2000.00"
+    },
+    {
+      "payDate" : "2015-06-17",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "2000.00"
+    }
+  ]
+}

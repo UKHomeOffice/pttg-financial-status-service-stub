@@ -1,0 +1,75 @@
+{
+  "individual" : {
+    "title" : "Mr",
+    "forename" : "Harry",
+    "surname" : "Callahan",
+    "nino" : "QQ654321A"
+  },
+  "incomes" : [
+    {
+      "payDate" : "2015-01-11",
+      "employer" : "Sheffield Spice",
+      "income" : "1000.00"
+    },
+    {
+      "payDate" : "2015-02-11",
+      "employer" : "Sheffield Spice",
+      "income" : "1000.00"
+    },
+    {
+      "payDate" : "2015-03-11",
+      "employer" : "Sheffield Spice",
+      "income" : "1000.00"
+    },
+    {
+      "payDate" : "2015-04-11",
+      "employer" : "Sheffield Spice",
+      "income" : "3000.00"
+    },
+    {
+      "payDate" : "2015-05-11",
+      "employer" : "Sheffield Spice",
+      "income" : "1000.00"
+    },
+    {
+      "payDate" : "2015-06-11",
+      "employer" : "Sheffield Spice",
+      "income" : "1000.00"
+    },
+    {
+      "payDate" : "2015-07-13",
+      "employer" : "Sheffield Spice",
+      "income" : "2500.00"
+    },
+    {
+      "payDate" : "2015-08-11",
+      "employer" : "Sheffield Spice",
+      "income" : "1000.00"
+    },
+    {
+      "payDate" : "2015-09-11",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1666.00"
+    },
+    {
+      "payDate" : "2015-10-13",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1666.00"
+    },
+    {
+      "payDate" : "2015-11-11",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1666.00"
+    },
+    {
+      "payDate" : "2015-12-11",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1666.00"
+    },
+    {
+      "payDate" : "2016-01-11",
+      "employer" : "Flying Pizza Ltd",
+      "income" : "1666.00"
+    }
+  ]
+}
