@@ -35,6 +35,8 @@ class ServiceSpec extends Specification {
     static final String SORT_CODE = "123456"
     static final String ACCOUNT_NUMBER = "12345678"
     static final LocalDate TR_DATE = LocalDate.parse("2014-03-25")
+    static final String CONSENT = "Y"
+
 
     def setup() {
         service.dataService = dataMock
@@ -134,7 +136,7 @@ class ServiceSpec extends Specification {
     }
 
     private static BalanceSummary createBalanceSummary() {
-        BalanceSummary balanceSummary = new BalanceSummary(ACCOUNT_HOLDER_NAME, SORT_CODE, ACCOUNT_NUMBER)
+        BalanceSummary balanceSummary = new BalanceSummary(ACCOUNT_HOLDER_NAME, SORT_CODE, ACCOUNT_NUMBER, CONSENT)
         balanceSummary.setBalanceRecords([new BalanceRecord(TR_DATE, MIN_BALANCE)])
         balanceSummary
     }

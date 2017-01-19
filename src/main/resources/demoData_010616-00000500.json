@@ -2,6 +2,7 @@
   "accountHolderName": "Sam Knight",
   "sortCode": "010616",
   "accountNumber": "00000500",
+  "consent": "SUCCESS",
   "balanceRecords": [
     {
       "date": "2016-02-03",

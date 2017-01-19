@@ -23,6 +23,8 @@ public class BalanceSummary {
     @NotNull
     private String accountNumber;
 
+    private String consent;
+
     private List<BalanceRecord> balanceRecords;
 
     public BalanceSummary() {
@@ -36,10 +38,11 @@ public class BalanceSummary {
         this.accountHolderName = accountHolderName;
     }
 
-    public BalanceSummary(String accountHolderName, String sortCode, String accountNumber) {
+    public BalanceSummary(String accountHolderName, String sortCode, String accountNumber, String consent) {
         this.accountHolderName = accountHolderName;
         this.sortCode = sortCode;
         this.accountNumber = accountNumber;
+        this.consent = consent;
     }
 
     public List<BalanceRecord> getBalanceRecords() {
@@ -66,27 +69,38 @@ public class BalanceSummary {
         this.accountNumber = accountNumber;
     }
 
+    public String getConsent() {
+        return consent;
+    }
+
+    public void setConsent(String consent) {
+        this.consent = consent;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof BalanceSummary)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         BalanceSummary that = (BalanceSummary) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (!accountHolderName.equals(that.accountHolderName)) return false;
-        if (!sortCode.equals(that.sortCode)) return false;
-        if (!accountNumber.equals(that.accountNumber)) return false;
+        if (accountHolderName != null ? !accountHolderName.equals(that.accountHolderName) : that.accountHolderName != null)
+            return false;
+        if (sortCode != null ? !sortCode.equals(that.sortCode) : that.sortCode != null) return false;
+        if (accountNumber != null ? !accountNumber.equals(that.accountNumber) : that.accountNumber != null)
+            return false;
+        if (consent != null ? !consent.equals(that.consent) : that.consent != null) return false;
         return balanceRecords != null ? balanceRecords.equals(that.balanceRecords) : that.balanceRecords == null;
-
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + accountHolderName.hashCode();
-        result = 31 * result + sortCode.hashCode();
-        result = 31 * result + accountNumber.hashCode();
+        result = 31 * result + (accountHolderName != null ? accountHolderName.hashCode() : 0);
+        result = 31 * result + (sortCode != null ? sortCode.hashCode() : 0);
+        result = 31 * result + (accountNumber != null ? accountNumber.hashCode() : 0);
+        result = 31 * result + (consent != null ? consent.hashCode() : 0);
         result = 31 * result + (balanceRecords != null ? balanceRecords.hashCode() : 0);
         return result;
     }

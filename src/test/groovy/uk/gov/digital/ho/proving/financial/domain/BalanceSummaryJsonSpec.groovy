@@ -49,7 +49,7 @@ class BalanceSummaryJsonSpec extends Specification{
     }
 
     def BalanceSummary getBalanceSummary() {
-        BalanceSummary st = new BalanceSummary("Ray Purchase", "601234", "12345678")
+        BalanceSummary st = new BalanceSummary("Ray Purchase", "601234", "12345678", "Y")
         st.setBalanceRecords([new BalanceRecord(LocalDate.parse("2016-10-08"), "3000"),new BalanceRecord(LocalDate.parse("2016-10-07"), "3000")])
         st
     }

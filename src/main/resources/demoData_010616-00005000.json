@@ -2,6 +2,7 @@
   "accountHolderName": "Ray Purchase",
   "sortCode": "010616",
   "accountNumber": "00005000",
+  "consent": "SUCCESS",
   "balanceRecords": [
     {
       "date": "2016-02-03",

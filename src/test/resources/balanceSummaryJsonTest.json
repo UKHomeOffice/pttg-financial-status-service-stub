@@ -1,6 +1,7 @@
 { "accountHolderName" : "Ray Purchase",
   "sortCode" : "601234",
   "accountNumber" : "12345678",
+  "consent": "Y",
   "balanceRecords" : [ {
      "date" : "2016-10-08",
      "balance" : "3000"

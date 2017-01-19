@@ -16,6 +16,7 @@ import uk.gov.digital.ho.proving.financial.domain.Individual
 import java.time.LocalDate
 
 public class DataServiceSpec extends Specification{
+    static final String CONSENT="Y"
     static final String SORT_CODE = "123456"
     static final String ACCOUNT_NUMBER = "12345678"
     static final LocalDate TR_DATE_25_MARCH = LocalDate.parse("2014-03-25")
@@ -81,7 +82,7 @@ public class DataServiceSpec extends Specification{
     }
 
     private static BalanceSummary createBalanceSummary() {
-        BalanceSummary balanceSummary = new BalanceSummary(ACCOUNT_HOLDER_NAME, SORT_CODE, ACCOUNT_NUMBER)
+        BalanceSummary balanceSummary = new BalanceSummary(ACCOUNT_HOLDER_NAME, SORT_CODE, ACCOUNT_NUMBER, CONSENT)
         balanceSummary.setBalanceRecords([new BalanceRecord(TR_DATE_21_MARCH, "2000"), new BalanceRecord(TR_DATE_25_MARCH, "2000"), new BalanceRecord(TR_DATE_27_MARCH, "2000"), new BalanceRecord(TR_DATE_28_MARCH, "2000")])
         balanceSummary
     }
