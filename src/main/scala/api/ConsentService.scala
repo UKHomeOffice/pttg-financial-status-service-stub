@@ -13,20 +13,26 @@ import org.springframework.web.bind.annotation._
 
 @RestController
 @PropertySource(value = Array("classpath:application.properties"))
-@RequestMapping(value = Array("/ods/accounts/"))
+@RequestMapping(value = Array("/financialstatus/v1/ods/accounts/"))
 @ControllerAdvice
 class ConsentService @Autowired()(dataService: DataService, mapper: ObjectMapper) {
 
-  val LOGGER = LoggerFactory.getLogger(classOf[ConsentService])
+  private val LOGGER = LoggerFactory.getLogger(classOf[ConsentService])
 
   @RequestMapping(value = Array("{accountId}/consent"), method = Array(RequestMethod.GET), produces = Array(MediaType.APPLICATION_JSON_VALUE))
   def getBalanceRecordsForDateRange(@PathVariable(value = "accountId") accountId: String,
-                                    @RequestParam(value = "dob") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) dob: Optional[LocalDate]): ResponseEntity[String] = {
+                                    @RequestParam(value = "dateOfBirth") @DateTimeFormat(pattern = "d-MMM-yyyy") dob: Optional[LocalDate],
+                                    @RequestHeader(value = "userId") userId: String,
+                                    @RequestHeader(value = "requestId") requestId: String,
+                                    @RequestHeader(value = "consumerId") consumerId: String): ResponseEntity[String] = {
 
     if (accountId.length == 14) {
 
       val sortCode = accountId.substring(0, 6)
       val account = accountId.substring(6)
+
+      LOGGER.debug("{} {} {} {} {} {}", sortCode, account, dob, userId, requestId, consumerId)
+
       val statements = dataService.getStatement(accountId.substring(0, 6), accountId.substring(6))
       val consent = if (statements.getConsent == null) "FAILURE" else statements.getConsent
       val response = new ConsentResponse(accountId, sortCode, account, consent, getConsentMessage(consent))
@@ -42,7 +48,7 @@ class ConsentService @Autowired()(dataService: DataService, mapper: ObjectMapper
     case "PENDING" => "Awaiting response from Account-Holder"
     case "SUCCESS" => "Consent received from Account-Holder"
     case "FAILURE" => "Account-Holder refused consent"
-
+    case "INVALID" => "Invalid response from Account-Holder"
   }
 
   private def buildErrorResponse(): ResponseEntity[String] =
