@@ -10,6 +10,7 @@ import org.springframework.context.annotation.PropertySource
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.{HttpStatus, MediaType, ResponseEntity}
 import org.springframework.web.bind.annotation._
+import uk.gov.digital.ho.proving.financial.exception.AccountNotFoundException
 
 @RestController
 @PropertySource(value = Array("classpath:application.properties"))
@@ -26,19 +27,21 @@ class ConsentService @Autowired()(dataService: DataService, mapper: ObjectMapper
                                     @RequestHeader(value = "requestId") requestId: String,
                                     @RequestHeader(value = "consumerId") consumerId: String): ResponseEntity[String] = {
 
-    if (accountId.length == 14) {
-
-      val sortCode = accountId.substring(0, 6)
-      val account = accountId.substring(6)
-
-      LOGGER.debug("{} {} {} {} {} {}", sortCode, account, dob, userId, requestId, consumerId)
-
-      val statements = dataService.getStatement(accountId.substring(0, 6), accountId.substring(6))
-      val consent = if (statements.getConsent == null) "FAILURE" else statements.getConsent
-      val response = new ConsentResponse(accountId, sortCode, account, consent, getConsentMessage(consent))
-      new ResponseEntity(mapper.writeValueAsString(response), HttpStatus.OK)
-    } else {
-      buildErrorResponse()
+    try {
+      if (accountId.length == 14) {
+        val sortCode = accountId.substring(0, 6)
+        val account = accountId.substring(6)
+        LOGGER.debug("{} {} {} {} {} {}", sortCode, account, dob, userId, requestId, consumerId)
+        val statements = dataService.getStatement(accountId.substring(0, 6), accountId.substring(6))
+        val consent = if (statements.getConsent == null) "FAILURE" else statements.getConsent
+        val response = new ConsentResponse(accountId, sortCode, account, consent, getConsentMessage(consent))
+        new ResponseEntity(mapper.writeValueAsString(response), HttpStatus.OK)
+      } else {
+        buildErrorResponse()
+      }
+    } catch {
+      case acn: AccountNotFoundException => buildErrorResponse(HttpStatus.NOT_FOUND)
+      case e: Exception => buildErrorResponse()
     }
 
   }
@@ -51,7 +54,7 @@ class ConsentService @Autowired()(dataService: DataService, mapper: ObjectMapper
     case "INVALID" => "Invalid response from Account-Holder"
   }
 
-  private def buildErrorResponse(): ResponseEntity[String] =
-    new ResponseEntity("{\"errorCode\":1,\"errorDescription\":\"sample errorDescription\"}", HttpStatus.BAD_REQUEST)
+  private def buildErrorResponse(httpStatus: HttpStatus = HttpStatus.BAD_REQUEST): ResponseEntity[String] =
+    new ResponseEntity("{\"errorCode\":1,\"errorDescription\":\"sample errorDescription\"}", httpStatus)
 
 }
