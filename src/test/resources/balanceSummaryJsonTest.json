@@ -2,6 +2,7 @@
   "sortCode" : "601234",
   "accountNumber" : "12345678",
   "consent": "Y",
+  "mobileNumber": "07777777777",
   "balanceRecords" : [ {
      "date" : "2016-10-08",
      "balance" : "3000"

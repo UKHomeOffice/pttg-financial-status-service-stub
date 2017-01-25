@@ -25,9 +25,20 @@ public class BalanceSummary {
 
     private String consent;
 
+    private String mobileNumber;
+
     private List<BalanceRecord> balanceRecords;
 
     public BalanceSummary() {
+    }
+
+
+    public BalanceSummary(String accountHolderName, String sortCode, String accountNumber,String consent, String mobileNumber ) {
+        this.accountHolderName = accountHolderName;
+        this.sortCode = sortCode;
+        this.accountNumber = accountNumber;
+        this.mobileNumber = mobileNumber;
+        this.consent = consent;
     }
 
     public String getAccountHolderName() {
@@ -36,21 +47,6 @@ public class BalanceSummary {
 
     public void setAccountHolderName(String accountHolderName) {
         this.accountHolderName = accountHolderName;
-    }
-
-    public BalanceSummary(String accountHolderName, String sortCode, String accountNumber, String consent) {
-        this.accountHolderName = accountHolderName;
-        this.sortCode = sortCode;
-        this.accountNumber = accountNumber;
-        this.consent = consent;
-    }
-
-    public List<BalanceRecord> getBalanceRecords() {
-        return balanceRecords;
-    }
-
-    public void setBalanceRecords(List<BalanceRecord> balanceRecords) {
-        this.balanceRecords = balanceRecords;
     }
 
     public String getSortCode() {
@@ -69,12 +65,28 @@ public class BalanceSummary {
         this.accountNumber = accountNumber;
     }
 
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
     public String getConsent() {
         return consent;
     }
 
     public void setConsent(String consent) {
         this.consent = consent;
+    }
+
+    public List<BalanceRecord> getBalanceRecords() {
+        return balanceRecords;
+    }
+
+    public void setBalanceRecords(List<BalanceRecord> balanceRecords) {
+        this.balanceRecords = balanceRecords;
     }
 
     @Override
@@ -90,6 +102,7 @@ public class BalanceSummary {
         if (sortCode != null ? !sortCode.equals(that.sortCode) : that.sortCode != null) return false;
         if (accountNumber != null ? !accountNumber.equals(that.accountNumber) : that.accountNumber != null)
             return false;
+        if (mobileNumber != null ? !mobileNumber.equals(that.mobileNumber) : that.mobileNumber != null) return false;
         if (consent != null ? !consent.equals(that.consent) : that.consent != null) return false;
         return balanceRecords != null ? balanceRecords.equals(that.balanceRecords) : that.balanceRecords == null;
     }
@@ -100,8 +113,22 @@ public class BalanceSummary {
         result = 31 * result + (accountHolderName != null ? accountHolderName.hashCode() : 0);
         result = 31 * result + (sortCode != null ? sortCode.hashCode() : 0);
         result = 31 * result + (accountNumber != null ? accountNumber.hashCode() : 0);
+        result = 31 * result + (mobileNumber != null ? mobileNumber.hashCode() : 0);
         result = 31 * result + (consent != null ? consent.hashCode() : 0);
         result = 31 * result + (balanceRecords != null ? balanceRecords.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "BalanceSummary{" +
+                "id='" + id + '\'' +
+                ", accountHolderName='" + accountHolderName + '\'' +
+                ", sortCode='" + sortCode + '\'' +
+                ", accountNumber='" + accountNumber + '\'' +
+                ", mobileNumber='" + mobileNumber + '\'' +
+                ", consent='" + consent + '\'' +
+                ", balanceRecords=" + balanceRecords +
+                '}';
     }
 }

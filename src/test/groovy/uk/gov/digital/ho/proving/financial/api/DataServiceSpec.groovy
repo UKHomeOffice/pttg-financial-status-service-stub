@@ -24,6 +24,7 @@ public class DataServiceSpec extends Specification{
     static final LocalDate TR_DATE_28_MARCH = LocalDate.parse("2014-03-28")
     static final LocalDate TR_DATE_21_MARCH = LocalDate.parse("2014-03-21")
     public static final String ACCOUNT_HOLDER_NAME = "Ray Purchase"
+    static final MOBILE_NUMBER = "07777777777"
 
 
     BalanceSummaryRepository repo = Mock(BalanceSummaryRepository.class)
@@ -82,7 +83,7 @@ public class DataServiceSpec extends Specification{
     }
 
     private static BalanceSummary createBalanceSummary() {
-        BalanceSummary balanceSummary = new BalanceSummary(ACCOUNT_HOLDER_NAME, SORT_CODE, ACCOUNT_NUMBER, CONSENT)
+        BalanceSummary balanceSummary = new BalanceSummary(ACCOUNT_HOLDER_NAME, SORT_CODE, ACCOUNT_NUMBER, CONSENT, MOBILE_NUMBER)
         balanceSummary.setBalanceRecords([new BalanceRecord(TR_DATE_21_MARCH, "2000"), new BalanceRecord(TR_DATE_25_MARCH, "2000"), new BalanceRecord(TR_DATE_27_MARCH, "2000"), new BalanceRecord(TR_DATE_28_MARCH, "2000")])
         balanceSummary
     }
