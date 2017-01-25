@@ -35,7 +35,7 @@ class ServiceSpec extends Specification {
     static final String SORT_CODE = "123456"
     static final String ACCOUNT_NUMBER = "12345678"
     static final LocalDate TR_DATE = LocalDate.parse("2014-03-25")
-    static final String CONSENT = "Y"
+    static final String CONSENT = "SUCCESS"
     static final String MOBILE_NUMBER="07777777777"
 
 

@@ -1,6 +1,8 @@
 package uk.gov.digital.ho.proving.financial.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -8,16 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.util.Optional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import uk.gov.digital.ho.proving.financial.domain.BalanceSummary;
 import uk.gov.digital.ho.proving.financial.exception.AccountNotFoundException;
 
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
+import java.util.Optional;
 
 @RestController
 @PropertySource(value = {"classpath:application.properties"})
@@ -32,16 +30,12 @@ public class ConsentService {
 
     private static Logger LOGGER = LoggerFactory.getLogger(ConsentService.class);
 
-    // Due to Barclays using non standard HTTP status code e.g. 446 and Spring not allowing them to be
-    // put inside a ResponseEntity we are building the response as a string and explicitly returning it
-
     @RequestMapping(value = {"{accountId}/consent"}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getBalanceRecordsForDateRange(@PathVariable(value = "accountId") String accountId,
-                                                @RequestParam(value = "dateOfBirth") @DateTimeFormat(pattern = "d-MMM-yyyy") Optional<LocalDate> dob,
-                                                @RequestHeader(value = "userId") String userId,
-                                                @RequestHeader(value = "requestId") String requestId,
-                                                @RequestHeader(value = "consumerId") String consumerId,
-                                                HttpServletResponse httpResponse) {
+    public ResponseEntity<String> getBalanceRecordsForDateRange(@PathVariable(value = "accountId") String accountId,
+                                                                @RequestParam(value = "dateOfBirth") @DateTimeFormat(pattern = "d-MMM-yyyy") Optional<LocalDate> dob,
+                                                                @RequestHeader(value = "userId") String userId,
+                                                                @RequestHeader(value = "requestId") String requestId,
+                                                                @RequestHeader(value = "consumerId") String consumerId) {
 
         try {
             if (accountId.length() == 14) {
@@ -52,20 +46,18 @@ public class ConsentService {
                 String consent = (statements.getConsent() == null) ? "FAILURE" : statements.getConsent();
 
                 if (statements.getMobileNumber() == null || statements.getMobileNumber().trim().equals("")) {
-                    httpResponse.setStatus(446);
-                    return buildErrorResponse(446, "Mobile Number is Invalid");
+                    return buildErrorResponse(446, "Mobile Number is Invalid", HttpStatus.BAD_REQUEST);
                 } else {
                     ConsentResponse response = new ConsentResponse(accountId, sortCode, account, consent, getConsentMessage(consent));
-                    return mapper.writeValueAsString(response);
+                    return new ResponseEntity<String>(mapper.writeValueAsString(response), HttpStatus.OK);
                 }
             } else {
-                return buildErrorResponse(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.toString());
+                return buildErrorResponse(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.toString(), HttpStatus.BAD_REQUEST);
             }
         } catch (AccountNotFoundException acn) {
-            httpResponse.setStatus(455);
-            return buildErrorResponse(455, "No Data Found");
+            return buildErrorResponse(455, "No Data Found", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.toString());
+            return buildErrorResponse(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.toString(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -92,8 +84,8 @@ public class ConsentService {
         return response;
     }
 
-    private String buildErrorResponse(Integer errorCode, String errorMessage) {
-        return "{\"errorCode\":" + errorCode + ",\"errorDescription\":\"" + errorMessage + "\"}";
+    private ResponseEntity<String> buildErrorResponse(Integer errorCode, String errorMessage, HttpStatus httpStatus) {
+        return new ResponseEntity<>("{\"errorCode\":" + errorCode + ",\"errorDescription\":\"" + errorMessage + "\"}", httpStatus);
     }
 
 }
