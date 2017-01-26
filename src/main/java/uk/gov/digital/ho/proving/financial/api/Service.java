@@ -67,7 +67,7 @@ public class Service {
                             incomeRetrievalResponse.setBalanceRecords(ips.getBalanceRecords());
                             return new ResponseEntity<>(incomeRetrievalResponse, HttpStatus.OK);
                         } else {
-                            return buildErrorResponse(new BalanceSummaryResponse(), "400", "Account-Holder consent unavailable", HttpStatus.NOT_FOUND);
+                            return buildErrorResponse(new BalanceSummaryResponse(), "400", "Account-Holder consent unavailable", HttpStatus.BAD_REQUEST);
                         }
                     }
             ).orElse(buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_3, "Error retrieving test data", HttpStatus.NOT_FOUND));
@@ -79,7 +79,6 @@ public class Service {
             return buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_5, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
     /*persist complete Balance summary (account information and balance records) throws FinancialStatusStubException if account already exists*/
     @RequestMapping(value = "/financialstatus/v1/accounts", method = RequestMethod.POST, produces = "application/json")
