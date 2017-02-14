@@ -97,6 +97,7 @@ pipeline:
       - ENVIRONMENT=prod
       - VERSION=${DRONE_COMMIT_SHA}
       - KUBE_SERVER_PROD=https://kube.dsp.digital.homeoffice.gov.uk
+      - KUBE_SERVER_DEV=https://kube.dsp.digital.homeoffice.gov.uk
     commands:
       - cd kube-pttg-fs-stub
       - ./deploy-prod.sh
