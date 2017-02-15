@@ -2,6 +2,8 @@
   "accountHolderName": "Sam Knight",
   "sortCode": "010616",
   "accountNumber": "00000500",
+  "consent": "SUCCESS",
+  "mobileNumber": "07777777777",
   "balanceRecords": [
     {
       "date": "2016-02-03",

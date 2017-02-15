@@ -21,11 +21,13 @@ import static uk.gov.digital.ho.proving.financial.util.DateUtils.parseIsoDate;
 @ControllerAdvice
 public class Service {
 
-    public static final String BANKCODE_5 = "bankcode 5";
-    public static final String BANKCODE_1 = "bankcode 1";
-    public static final String BANKCODE_2 = "bankcode 2";
-    public static final String BANKCODE_3 = "bankcode 3";
-    public static final String BANKCODE_4 = "bankcode 4";
+    static final String CONSENT_SUCCESS = "SUCCESS";
+
+    static final String BANKCODE_5 = "bankcode 5";
+    static final String BANKCODE_1 = "bankcode 1";
+    static final String BANKCODE_2 = "bankcode 2";
+    static final String BANKCODE_3 = "bankcode 3";
+    static final String BANKCODE_4 = "bankcode 4";
     private static Logger LOGGER = LoggerFactory.getLogger(Service.class);
 
     @Autowired
@@ -60,9 +62,13 @@ public class Service {
             );
 
             return statement.map(ips -> {
-                        BalanceSummaryResponse incomeRetrievalResponse = new BalanceSummaryResponse(ips.getAccountHolderName());
-                        incomeRetrievalResponse.setBalanceRecords(ips.getBalanceRecords());
-                        return new ResponseEntity<>(incomeRetrievalResponse, HttpStatus.OK);
+                        if (CONSENT_SUCCESS.equals(ips.getConsent())) {
+                            BalanceSummaryResponse incomeRetrievalResponse = new BalanceSummaryResponse(ips.getAccountHolderName());
+                            incomeRetrievalResponse.setBalanceRecords(ips.getBalanceRecords());
+                            return new ResponseEntity<>(incomeRetrievalResponse, HttpStatus.OK);
+                        } else {
+                            return buildErrorResponse(new BalanceSummaryResponse(), "400", "Account-Holder consent unavailable", HttpStatus.BAD_REQUEST);
+                        }
                     }
             ).orElse(buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_3, "Error retrieving test data", HttpStatus.NOT_FOUND));
 
@@ -73,7 +79,6 @@ public class Service {
             return buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_5, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
     /*persist complete Balance summary (account information and balance records) throws FinancialStatusStubException if account already exists*/
     @RequestMapping(value = "/financialstatus/v1/accounts", method = RequestMethod.POST, produces = "application/json")
@@ -119,7 +124,8 @@ public class Service {
         }
     }
 
-    protected <U extends BaseResponse> ResponseEntity<U> buildErrorResponse(U response, String statusCode, String statusMessage, HttpStatus status) {
+    protected <U extends BaseResponse> ResponseEntity<U> buildErrorResponse(U response, String statusCode, String
+            statusMessage, HttpStatus status) {
         ResponseStatus error = new ResponseStatus(statusCode, statusMessage);
         response.setStatus(error);
         return ResponseEntity.status(status)
