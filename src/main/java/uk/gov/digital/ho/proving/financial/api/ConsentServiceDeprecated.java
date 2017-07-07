@@ -18,20 +18,20 @@ import java.util.Optional;
 
 @RestController
 @PropertySource(value = {"classpath:application.properties"})
-@RequestMapping(value = {"/stub/"})
+@RequestMapping(value = {"/financialstatus/v1/ods/accounts/"})
 @ControllerAdvice
-public class ConsentService {
+public class ConsentServiceDeprecated {
 
     @Autowired
     private DataService dataService;
     @Autowired
     private ObjectMapper mapper;
 
-    private static Logger LOGGER = LoggerFactory.getLogger(ConsentService.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(ConsentServiceDeprecated.class);
 
     @RequestMapping(value = {"{accountId}/consent"}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getBalanceRecordsForDateRange(@PathVariable(value = "accountId") String accountId,
-                                                                @RequestParam(value = "dateOfBirth") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dob,
+                                                                @RequestParam(value = "dateOfBirth") @DateTimeFormat(pattern = "d-MMM-yyyy") Optional<LocalDate> dob,
                                                                 @RequestHeader(value = "userId") String userId,
                                                                 @RequestHeader(value = "requestId") String requestId,
                                                                 @RequestHeader(value = "consumerId") String consumerId) {
