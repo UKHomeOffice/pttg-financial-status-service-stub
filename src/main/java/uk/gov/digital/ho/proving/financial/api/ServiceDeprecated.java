@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uk.gov.digital.ho.proving.financial.domain.BalanceSummary;
 import uk.gov.digital.ho.proving.financial.exception.AccountNotFoundException;
+import uk.gov.digital.ho.proving.financial.domain.BalanceSummary;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -19,8 +19,7 @@ import static uk.gov.digital.ho.proving.financial.util.DateUtils.parseIsoDate;
 
 @RestController
 @ControllerAdvice
-@RequestMapping(value = {"/accounts/"})
-public class Service {
+public class ServiceDeprecated {
 
     static final String CONSENT_SUCCESS = "SUCCESS";
 
@@ -29,19 +28,18 @@ public class Service {
     static final String BANKCODE_2 = "bankcode 2";
     static final String BANKCODE_3 = "bankcode 3";
     static final String BANKCODE_4 = "bankcode 4";
-    private static Logger LOGGER = LoggerFactory.getLogger(Service.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(ServiceDeprecated.class);
 
     @Autowired
     private DataService dataService;
 
-    @RequestMapping(value = "{account}/balances", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/financialstatus/v1/{sortcode}/{account}/balances", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<BalanceSummaryResponse> getBalanceRecordsForDateRange(
-            @PathVariable(value = "account") String accountId,
+            @PathVariable(value = "account") String account,
+            @PathVariable(value = "sortcode") String sortcode,
             @RequestParam(value = "fromDate") String fromDateAsString,
             @RequestParam(value = "toDate") String toDateAsString) {
 
-        String sortcode = accountId.substring(0, 6);
-        String account = accountId.substring(6);
         LOGGER.debug(String.format("Financial Status Service STUB invoked for %s sortcode %s account between %s and %s", sortcode, account, fromDateAsString, toDateAsString));
 
         try {
@@ -83,7 +81,7 @@ public class Service {
     }
 
     /*persist complete Balance summary (account information and balance records) throws FinancialStatusStubException if account already exists*/
-    @RequestMapping(value = "accounts", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/financialstatus/v1/accounts", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> createTestData(@RequestBody @Valid BalanceSummary testData) {
 
         LOGGER.info(String.format("Financial Status Service STUB invoked for testdata %s", testData));
@@ -98,7 +96,7 @@ public class Service {
     }
 
 
-    @RequestMapping(value = "accounts", method = RequestMethod.DELETE, produces = "application/json")
+    @RequestMapping(value = "/financialstatus/v1/accounts", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity<BalanceSummaryResponse> deleteTestData() {
 
         try {
@@ -111,7 +109,7 @@ public class Service {
         }
     }
 
-    @RequestMapping(value = "accounts", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/financialstatus/v1/accounts", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<BalanceSummariesResponse> getAllTestData() {
 
         try {

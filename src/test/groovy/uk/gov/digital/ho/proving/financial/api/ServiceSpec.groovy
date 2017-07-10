@@ -25,7 +25,7 @@ class ServiceSpec extends Specification {
     public static final String ACCOUNT_HOLDER_NAME = "Ray Purchase"
     DataService dataMock = Mock(DataService)
 
-    Service service = new Service()
+    ServiceDeprecated service = new ServiceDeprecated()
     MockMvc mockMvc = standaloneSetup(service).build()
 
     final String PATH = "/financialstatus/v1/accounts"
