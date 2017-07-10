@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @PropertySource(value = {"classpath:application.properties"})
-@RequestMapping(value = {"/stub/"})
+@RequestMapping(value = {"/accounts/"})
 @ControllerAdvice
 public class ConsentService {
 

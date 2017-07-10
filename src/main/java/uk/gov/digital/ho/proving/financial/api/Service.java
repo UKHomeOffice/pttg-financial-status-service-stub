@@ -19,7 +19,7 @@ import static uk.gov.digital.ho.proving.financial.util.DateUtils.parseIsoDate;
 
 @RestController
 @ControllerAdvice
-@RequestMapping(value = {"/stub/"})
+@RequestMapping(value = {"/accounts/"})
 public class Service {
 
     static final String CONSENT_SUCCESS = "SUCCESS";
