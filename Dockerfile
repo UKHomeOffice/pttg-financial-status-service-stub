@@ -8,17 +8,16 @@ ENV GROUP pttg
 ENV NAME pttg-fs-stub
 ENV JAR_PATH build/libs
 
-ARG JAR_PATH
 ARG VERSION
 
 WORKDIR /app
 
 RUN groupadd -r ${GROUP} && \
-    useradd -r -g ${USER} ${GROUP} -d /app && \
+    useradd -r -g ${GROUP} ${USER}  -d /app && \
     mkdir -p /app && \
     chown -R ${USER}:${GROUP} /app
 
-COPY ${JAR_PATH}/${NAME}.jar /app
+COPY ${JAR_PATH}/${NAME}*.jar /app
 COPY run.sh /app
 
 RUN chmod a+x /app/run.sh
