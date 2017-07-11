@@ -6,6 +6,7 @@ ENV HMRC_API_ENDPOINT localhost
 ENV USER pttg
 ENV GROUP pttg
 ENV NAME pttg-fs-stub
+ENV JAR_PATH build/libs
 
 ARG JAR_PATH
 ARG VERSION
