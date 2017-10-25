@@ -54,8 +54,9 @@ class ServiceSpec extends Specification {
         then:
         def jsonContent = new JsonSlurper().parseText(response.andReturn().response.getContentAsString())
         response.andExpect(status().isOk())
-        jsonContent.balanceRecords[0].balance == "2000"
-        jsonContent.accountHolderName == ACCOUNT_HOLDER_NAME
+        println(jsonContent)
+        jsonContent.account.balances[0].closingBalance == new BigDecimal("2000")
+        jsonContent.account.firstName == ACCOUNT_HOLDER_NAME
     }
 
 
