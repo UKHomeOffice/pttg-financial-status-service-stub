@@ -95,7 +95,7 @@ class ServiceIntegrationSpec extends Specification{
         def countAfterTestDataCreated = getNumberOfPersistedBalanceSummaries()
 
         when:
-        ResponseEntity<BalanceSummaryResponse> response =createNonDemoTestData()
+        ResponseEntity<BarclaysAccountBalanceResponse> response =createNonDemoTestData()
 
         then:
         response.statusCode.value() == 500
@@ -118,7 +118,7 @@ class ServiceIntegrationSpec extends Specification{
         createNonDemoTestData()
 
         when: "api invoked with valid account number and date range"
-        ResponseEntity<BalanceSummaryResponse> data = restTemplate.getForEntity(targetUrl, BalanceSummaryResponse.class)
+        ResponseEntity<BarclaysAccountBalanceResponse> data = restTemplate.getForEntity(targetUrl, BarclaysAccountBalanceResponse.class)
 
         then:
         data.getBody().getBalanceRecords().size() == 1
@@ -130,7 +130,7 @@ class ServiceIntegrationSpec extends Specification{
         createNonDemoTestData()
 
         when: "api invoked with non-existant account number and date range"
-        ResponseEntity<BalanceSummaryResponse> response = restTemplate.getForEntity(targetUrl, BalanceSummaryResponse.class)
+        ResponseEntity<BarclaysAccountBalanceResponse> response = restTemplate.getForEntity(targetUrl, BarclaysAccountBalanceResponse.class)
 
         then:
         response.statusCode.value() == 404
@@ -148,7 +148,7 @@ class ServiceIntegrationSpec extends Specification{
 
 
     private void clearTestSpecificData() {
-        restTemplate.delete(getBaseUrl()+PATH_ALL_ACCOUNTS,BalanceSummaryResponse.class)
+        restTemplate.delete(getBaseUrl()+PATH_ALL_ACCOUNTS,BarclaysAccountBalanceResponse.class)
     }
 
     private void verifyNumberOfPersistedBalanceSummaries(int expected) {

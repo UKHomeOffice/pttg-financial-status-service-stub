@@ -73,6 +73,7 @@ dependencies {
 
     compile 'com.fasterxml.jackson.module:jackson-module-scala_2.11:2.7.4'
     compile 'org.scala-lang:scala-library:2.11.8'
+    compile 'org.projectlombok:lombok:1.16.12'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.codehaus.groovy:groovy-all:2.4.3'

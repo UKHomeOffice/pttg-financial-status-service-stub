@@ -35,7 +35,7 @@ public class Service {
     private DataService dataService;
 
     @RequestMapping(value = "{account}/balances", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<BalanceSummaryResponse> getBalanceRecordsForDateRange(
+    public ResponseEntity<BarclaysAccountBalanceResponse> getBalanceRecordsForDateRange(
             @PathVariable(value = "account") String accountId,
             @RequestParam(value = "fromDate") String fromDateAsString,
             @RequestParam(value = "toDate") String toDateAsString) {
@@ -48,12 +48,12 @@ public class Service {
 
             Optional<LocalDate> fromDate = parseIsoDate(fromDateAsString);
             if (!fromDate.isPresent()) {
-                return buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_1, "Parameter error: From date is invalid", HttpStatus.BAD_REQUEST);
+                return buildErrorResponse(new BarclaysAccountBalanceResponse(), BANKCODE_1, "Parameter error: From date is invalid", HttpStatus.BAD_REQUEST);
             }
 
             Optional<LocalDate> toDate = parseIsoDate(toDateAsString);
             if (!toDate.isPresent()) {
-                return buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_2, "Parameter error: To date is invalid", HttpStatus.BAD_REQUEST);
+                return buildErrorResponse(new BarclaysAccountBalanceResponse(), BANKCODE_2, "Parameter error: To date is invalid", HttpStatus.BAD_REQUEST);
             }
 
             //flat map - removes the nested optional (if it exists), map uses value if exists or returns optional with absent - so lookup not called
@@ -65,20 +65,18 @@ public class Service {
 
             return statement.map(ips -> {
                         if (CONSENT_SUCCESS.equals(ips.getConsent())) {
-                            BalanceSummaryResponse incomeRetrievalResponse = new BalanceSummaryResponse(ips.getAccountHolderName());
-                            incomeRetrievalResponse.setBalanceRecords(ips.getBalanceRecords());
-                            return new ResponseEntity<>(incomeRetrievalResponse, HttpStatus.OK);
+                            return new ResponseEntity<>(new BarclaysAccountBalanceResponse(ips), HttpStatus.OK);
                         } else {
-                            return buildErrorResponse(new BalanceSummaryResponse(), "400", "Account-Holder consent unavailable", HttpStatus.BAD_REQUEST);
+                            return buildErrorResponse(new BarclaysAccountBalanceResponse(), "400", "Account-Holder consent unavailable", HttpStatus.BAD_REQUEST);
                         }
                     }
-            ).orElse(buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_3, "Error retrieving test data", HttpStatus.NOT_FOUND));
+            ).orElse(buildErrorResponse(new BarclaysAccountBalanceResponse(), BANKCODE_3, "Error retrieving test data", HttpStatus.NOT_FOUND));
 
         } catch (AccountNotFoundException e) {
-            return buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_4, "Resource not found", HttpStatus.NOT_FOUND);
+            return buildErrorResponse(new BarclaysAccountBalanceResponse(), BANKCODE_4, "Resource not found", HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {
             LOGGER.error("Error retrieving test data", e);
-            return buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_5, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return buildErrorResponse(new BarclaysAccountBalanceResponse(), BANKCODE_5, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -92,22 +90,22 @@ public class Service {
             dataService.saveTestData(testData);
         } catch (RuntimeException e) {
             LOGGER.error("Error persisting test data", e);
-            return buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_5, "Error persisting testData test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return buildErrorResponse(new BarclaysAccountBalanceResponse(), BANKCODE_5, "Error persisting testData test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return ResponseEntity.ok().build();
     }
 
 
     @RequestMapping(value = "accounts", method = RequestMethod.DELETE, produces = "application/json")
-    public ResponseEntity<BalanceSummaryResponse> deleteTestData() {
+    public ResponseEntity<BarclaysAccountBalanceResponse> deleteTestData() {
 
         try {
             dataService.initialiseTestData();
-            return new ResponseEntity<>(new BalanceSummaryResponse(), HttpStatus.OK);
+            return new ResponseEntity<>(new BarclaysAccountBalanceResponse(), HttpStatus.OK);
 
         } catch (Exception e) {
             LOGGER.error("Error deleting test data", e);
-            return buildErrorResponse(new BalanceSummaryResponse(), BANKCODE_5, "Error deleting test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return buildErrorResponse(new BarclaysAccountBalanceResponse(), BANKCODE_5, "Error deleting test data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
