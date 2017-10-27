@@ -2,6 +2,14 @@ package uk.gov.digital.ho.proving.financial.api;
 
 public class ConsentResponse {
 
+    public String getFromBalanceDate() {
+        return fromBalanceDate;
+    }
+
+    public String getToBalanceDate() {
+        return toBalanceDate;
+    }
+
     private class Result {
         private String status;
         private String description;
