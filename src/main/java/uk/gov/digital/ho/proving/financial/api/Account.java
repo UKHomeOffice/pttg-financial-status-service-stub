@@ -8,9 +8,9 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class Account {
-    private final String accountId;
-    private final String sortCode;
-    private final String accountNumber;
+    private final long accountId;
+    private final long sortCode;
+    private final long accountNumber;
     private final String currency;
     private final String firstName;
     private final String middleName;

@@ -28,39 +28,43 @@ public class ConsentResponse {
         }
     }
 
-    private String accountId;
-    private String sortCode;
-    private String accountNumber;
+    private long accountId;
+    private long sortCode;
+    private long accountNumber;
+    private String fromBalanceDate;
+    private String toBalanceDate;
     private Result result;
 
-    public ConsentResponse(String accountId, String sortCode, String accountNumber, String status, String description) {
-        this.accountId = accountId;
-        this.sortCode = sortCode;
-        this.accountNumber = accountNumber;
+    public ConsentResponse(String accountId, String sortCode, String accountNumber, String fromBalanceDate, String toBalanceDate, String status, String description) {
+        this.accountId = Long.valueOf(accountId);
+        this.sortCode = Long.valueOf(sortCode);
+        this.accountNumber = Long.valueOf(accountNumber);
+        this.fromBalanceDate = fromBalanceDate;
+        this.toBalanceDate = toBalanceDate;
         this.result = new Result(status, description);
     }
 
-    public String getAccountId() {
+    public long getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(String accountId) {
+    public void setAccountId(long accountId) {
         this.accountId = accountId;
     }
 
-    public String getSortCode() {
+    public long getSortCode() {
         return sortCode;
     }
 
-    public void setSortCode(String sortCode) {
+    public void setSortCode(long sortCode) {
         this.sortCode = sortCode;
     }
 
-    public String getAccountNumber() {
+    public long getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(String accountNumber) {
+    public void setAccountNumber(long accountNumber) {
         this.accountNumber = accountNumber;
     }
 
