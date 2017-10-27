@@ -20,9 +20,9 @@ public class BarclaysAccountBalanceResponse extends BaseResponse {
 
     public BarclaysAccountBalanceResponse(BalanceSummary balanceSummary) {
         this.account = new Account(
-                balanceSummary.getSortCode() + balanceSummary.getAccountNumber(),
-                balanceSummary.getSortCode(),
-                balanceSummary.getAccountNumber(),
+                Long.valueOf(balanceSummary.getSortCode() + balanceSummary.getAccountNumber()),
+                Long.valueOf(balanceSummary.getSortCode()),
+                Long.valueOf(balanceSummary.getAccountNumber()),
                 "GBP", balanceSummary.getAccountHolderName(),
                 "",
                 "",

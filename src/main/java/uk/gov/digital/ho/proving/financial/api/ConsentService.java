@@ -14,7 +14,7 @@ import uk.gov.digital.ho.proving.financial.domain.BalanceSummary;
 import uk.gov.digital.ho.proving.financial.exception.AccountNotFoundException;
 
 import java.time.LocalDate;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @PropertySource(value = {"classpath:application.properties"})
@@ -31,6 +31,8 @@ public class ConsentService {
 
     @RequestMapping(value = {"{accountId}/consent"}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getBalanceRecordsForDateRange(@PathVariable(value = "accountId") String accountId,
+                                                                @RequestParam(value = "fromBalanceDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromBalanceDate,
+                                                                @RequestParam(value = "toBalanceDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toBalanceDate,
                                                                 @RequestParam(value = "dateOfBirth") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dob,
                                                                 @RequestHeader(value = "userId") String userId,
                                                                 @RequestHeader(value = "requestId") String requestId,
@@ -40,15 +42,15 @@ public class ConsentService {
             if (accountId.length() == 14) {
                 String sortCode = accountId.substring(0, 6);
                 String account = accountId.substring(6);
-                LOGGER.debug("{} {} {} {} {} {}", sortCode, account, dob, userId, requestId, consumerId);
+                LOGGER.debug("{} {} {} {} {} {} {} {}", sortCode, account, fromBalanceDate, toBalanceDate, dob, userId, requestId, consumerId);
                 BalanceSummary statements = dataService.getStatement(accountId.substring(0, 6), accountId.substring(6));
                 String consent = (statements.getConsent() == null) ? "FAILURE" : statements.getConsent();
 
                 if (statements.getMobileNumber() == null || statements.getMobileNumber().trim().equals("")) {
                     return buildErrorResponse(446, "Mobile Number is Invalid", HttpStatus.BAD_REQUEST);
                 } else {
-                    ConsentResponse response = new ConsentResponse(accountId, sortCode, account, consent, getConsentMessage(consent));
-                    return new ResponseEntity<String>(mapper.writeValueAsString(response), HttpStatus.OK);
+                    BarclaysAccountConsentResponse response = new BarclaysAccountConsentResponse(new ConsentResponse(accountId, sortCode, account, fromBalanceDate.format(DateTimeFormatter.ISO_DATE), toBalanceDate.format(DateTimeFormatter.ISO_DATE), consent, getConsentMessage(consent)));
+                    return new ResponseEntity<>(mapper.writeValueAsString(response), HttpStatus.OK);
                 }
             } else {
                 return buildErrorResponse(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.toString(), HttpStatus.BAD_REQUEST);
