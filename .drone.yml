@@ -1,7 +1,6 @@
 pipeline:
 
   build-project:
-    privileged: true
     image: quay.io/ukhomeofficedigital/openjdk8:v1.1.0
     commands:
       - ./gradlew build
