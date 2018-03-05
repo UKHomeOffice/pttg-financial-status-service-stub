@@ -18,6 +18,3 @@ Add any data files to be automatically inserted,  to the src/test/resources fold
 **Technical Notes**
 
 The API is implemented using Spring Boot, Spring data (MongoDB)
-
-
-
