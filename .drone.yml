@@ -49,7 +49,7 @@ pipeline:
     commands:
       - git clone https://github.com/UKHomeOffice/kube-pttg-fs-stub.git
     when:
-      event: [push, tag]
+      event: [push, tag, deployment]
 
   deploy-to-dev-from-build-number:
     image: quay.io/ukhomeofficedigital/kd:v0.8.0
