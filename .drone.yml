@@ -74,12 +74,12 @@ pipeline:
       - ENVIRONMENT=${DRONE_DEPLOY_TO}
       - VERSION=$${IMAGE_VERSION}
       - KUBE_SERVER=https://kube-api-notprod.notprod.acp.homeoffice.gov.uk
-    commands:
-      - cd kube-pttg-fs-stub
-      - ./deploy.sh
     secrets:
       - pttg_fs_dev
       - pttg_fs_test
+    commands:
+      - cd kube-pttg-fs-stub
+      - ./deploy.sh
     when:
       event: deployment
       environment: [dev, test]
