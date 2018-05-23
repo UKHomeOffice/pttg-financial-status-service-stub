@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RestController
 @PropertySource(value = {"classpath:application.properties"})
-@RequestMapping(value = {"/financialstatus/v1/ods/accounts/"})
+@RequestMapping(value = {"/accounts/"})
 @ControllerAdvice
 public class ConsentService {
 
@@ -34,7 +34,7 @@ public class ConsentService {
     public ResponseEntity<String> getBalanceRecordsForDateRange(@PathVariable(value = "accountId") String accountId,
                                                                 @RequestParam(value = "fromBalanceDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromBalanceDate,
                                                                 @RequestParam(value = "toBalanceDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toBalanceDate,
-                                                                @RequestParam(value = "dateOfBirth") @DateTimeFormat(pattern = "d-MMM-yyyy") Optional<LocalDate> dob,
+                                                                @RequestParam(value = "dateOfBirth") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dob,
                                                                 @RequestHeader(value = "userId") String userId,
                                                                 @RequestHeader(value = "requestId") String requestId,
                                                                 @RequestHeader(value = "consumerId") String consumerId) {
