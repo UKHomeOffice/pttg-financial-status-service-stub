@@ -16,13 +16,15 @@ import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Configuration
-public class ServiceConfiguration {
+public class ServiceConfiguration extends WebMvcConfigurerAdapter {
 
     private static Logger LOGGER = LoggerFactory.getLogger(ServiceConfiguration.class);
 
@@ -34,6 +36,14 @@ public class ServiceConfiguration {
 
     @Value("${mongodb.connect.timeout.millis}")
     private int mongodbConnectTimeout = 30000;
+
+    @Value("${response.delay:0}")
+    private long responseDelayInSeconds;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new TimeoutHandlerInterceptor(responseDelayInSeconds));
+    }
 
     @Bean
     public Jackson2ObjectMapperBuilder jacksonBuilder() {
@@ -83,7 +93,7 @@ public class ServiceConfiguration {
                             .sslEnabled(ssl)
                             .build());
 
-            LOGGER.info("MongoClient invoked using ["+mongodbService+"] and port ["+port+"]");
+            LOGGER.info("MongoClient invoked using [" + mongodbService + "] and port [" + port + "]");
         } else {
             LOGGER.info("MongoClient invoked using default host and port");
             client = new MongoClient();
