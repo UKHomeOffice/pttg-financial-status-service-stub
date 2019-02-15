@@ -4,14 +4,14 @@ Financial Status Service Stub
 **Overview**
 
 
-A stub to represent a banking interface for the Finanical Status Service. Also provides a central repository for acceptance 
+A stub to represent a banking interface for the Financial Status Service. Also provides a central repository for acceptance
 test data. 
 
 -
 
 **Demo Data**
 
-Add any data files to be automatically inserted,  to the src/test/resources folder with the prefix **demoData**
+Add any data files to be automatically inserted, to the src/main/resources folder with the prefix **demoData**
 
 -
 
