@@ -2,6 +2,8 @@
   "accountHolderName": "Ray Purchase",
   "sortCode": "200800",
   "accountNumber": "00040000",
+  "consent": "SUCCESS",
+  "mobileNumber": "07777777777",
   "balanceRecords": [
     {
       "date": "2016-02-03",
